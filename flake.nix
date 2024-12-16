@@ -25,9 +25,17 @@
     extra-substituters = "https://devenv.cachix.org";
   };
 
-  outputs = { self, nixpkgs, disko, systems, ... }:
+  outputs = { self, nixpkgs, nixos-generators, disko, systems, ... }:
     let
       forEachSystem = nixpkgs.lib.genAttrs (import systems);
+      nixosSystem = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          self.nixosModules.default
+          ./src/hardware
+          disko.nixosModules.disko
+        ];
+      };
     in
     {
       # packages = forEachSystem (system: {
@@ -46,31 +54,30 @@
         let
           system = "x86_64-linux";
           pkgs = nixpkgs.legacyPackages.${system};
-          nixosSystem = nixpkgs.lib.nixosSystem {
-            inherit system;
-            modules = [
-              self.nixosModules.default
-              ./src/hardware
-              disko.nixosModules.disko
-            ];
-          };
-          installer = nixpkgs.lib.nixosSystem {
-            inherit system;
-            modules = [
-              (import ./src/installer { inherit self pkgs; nixos = nixosSystem; })
-              ({ modulesPath, ... }: {
-                imports = [ (modulesPath + "/installer/cd-dvd/installation-cd-minimal.nix") ];
-              })
-            ];
-          };
         in
         {
           ${system} = {
             default = nixosSystem.config.system.build.toplevel;
-            iso = installer.config.system.build.isoImage;
-            docker = nixosSystem.config.system.build.images.oci;
+            isoAutoInstaller = nixos-generators.nixosGenerate {
+              inherit system;
+              modules = [
+                (import ./src/installer { inherit self system pkgs; })
+              ];
+              format = "iso";
+            };
+            docker = nixos-generators.nixosGenerate {
+              inherit system;
+              modules = [
+                self.nixosModules.default
+              ];
+              format = "docker";
+            };
           };
         };
+
+      nixosConfigurations = {
+        nixos = nixosSystem;
+      };
 
       # devShells = forEachSystem
       #   (system:
@@ -124,7 +131,7 @@
         {
           formatter = self.formatter.${system};
           nixos = self.packages.${system}.default;
-          iso = self.packages.${system}.iso;
+          isoAutoInstaller = self.packages.${system}.isoAutoInstaller;
           docker = self.packages.${system}.docker;
         };
     };

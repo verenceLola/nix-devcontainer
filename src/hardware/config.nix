@@ -9,7 +9,8 @@
   };
 
   # Bootloader.
-  boot.loader.grub.efiSupport = true;
+  boot.loader.grub.enable = true;
+  boot.loader.grub.efiSupport = false;
   boot.initrd.availableKernelModules = [
     "ata_piix"
     "uhci_hcd"
@@ -22,7 +23,7 @@
   boot.loader.systemd-boot.enable = false;
 
   boot.initrd.kernelModules = [ ];
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.efi.canTouchEfiVariables = false;
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 

@@ -1,4 +1,4 @@
-{ config, agenix, lib, ... }: with lib;
+{ config, lib, ... }: with lib;
 let
   availablePrograms = import ../programs.nix { };
   # requiredPkgs = import ../packages.nix { inherit pkgs; };
@@ -6,6 +6,7 @@ in
 {
   imports = [
     ../system
+    ../nix/config.nix
   ];
 
   options = {
