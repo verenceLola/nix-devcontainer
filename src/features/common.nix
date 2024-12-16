@@ -5,7 +5,7 @@ let
 in
 {
   imports = [
-    ../hardware/config.nix
+    ../system
   ];
 
   options = {

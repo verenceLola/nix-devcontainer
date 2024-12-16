@@ -9,7 +9,6 @@
   };
 
   # Bootloader.
-  boot.loader.grub.enable = true;
   boot.loader.grub.efiSupport = true;
   boot.initrd.availableKernelModules = [
     "ata_piix"
@@ -31,12 +30,6 @@
   # networking.interfaces.enp1s0.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-
-  fileSystems."/" =
-    {
-      device = "/dev/disk/by-uuid/d57180d7-e888-4689-8ad6-74b50ba598ae";
-      fsType = "ext4";
-    };
 
   boot.loader.grub.device = "nodev";
 }

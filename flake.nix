@@ -1,6 +1,6 @@
 {
   inputs = {
-    nixpkgs.url = "github:cachix/devenv-nixpkgs/rolling";
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     systems.url = "github:nix-systems/default";
     devenv = {
       url = "github:cachix/devenv";
@@ -10,6 +10,14 @@
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixos-generators = {
+      url = "github:nix-community/nixos-generators";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    disko = {
+      url = "github:nix-community/disko/latest";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   nixConfig = {
@@ -17,7 +25,7 @@
     extra-substituters = "https://devenv.cachix.org";
   };
 
-  outputs = { self, nixpkgs, systems, ... }:
+  outputs = { self, nixpkgs, disko, systems, ... }:
     let
       forEachSystem = nixpkgs.lib.genAttrs (import systems);
     in
@@ -26,14 +34,41 @@
       #   devenv-up = self.devShells.${system}.default.config.procfileScript;
       #   devenv-test = self.devShells.${system}.default.config.test;
       # });
+      # cool = {
+      #   nixosSystem = nixpkgs.lib.nixosSystem {
+      #     system = "x86_64-linux";
+      #     modules = [
+      #       self.nixosModules.default
+      #     ];
+      #   };
+      # };
       packages =
         let
           system = "x86_64-linux";
-          nixosFunc = nixpkgs.legacyPackages.${system}.nixos;
+          pkgs = nixpkgs.legacyPackages.${system};
+          nixosSystem = nixpkgs.lib.nixosSystem {
+            inherit system;
+            modules = [
+              self.nixosModules.default
+              ./src/hardware
+              disko.nixosModules.disko
+            ];
+          };
+          installer = nixpkgs.lib.nixosSystem {
+            inherit system;
+            modules = [
+              (import ./src/installer { inherit self pkgs; nixos = nixosSystem; })
+              ({ modulesPath, ... }: {
+                imports = [ (modulesPath + "/installer/cd-dvd/installation-cd-minimal.nix") ];
+              })
+            ];
+          };
         in
         {
           ${system} = {
-            default = (nixosFunc ./src/features/common.nix).config.system.build.toplevel;
+            default = nixosSystem.config.system.build.toplevel;
+            iso = installer.config.system.build.isoImage;
+            docker = nixosSystem.config.system.build.images.oci;
           };
         };
 
@@ -82,9 +117,15 @@
           '';
         }
       );
-      hydraJobs = {
-        formatter = self.formatter.x86_64-linux;
-        nixos = self.packages.x86_64-linux.default;
-      };
+      hydraJobs =
+        let
+          system = "x86_64-linux";
+        in
+        {
+          formatter = self.formatter.${system};
+          nixos = self.packages.${system}.default;
+          iso = self.packages.${system}.iso;
+          docker = self.packages.${system}.docker;
+        };
     };
 }
