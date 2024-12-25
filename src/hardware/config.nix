@@ -1,5 +1,4 @@
-{ lib, modulesPath, ... }:
-{
+{ lib, modulesPath, ... }: with lib; {
   imports = [
     (modulesPath + "/profiles/qemu-guest.nix")
   ];
@@ -26,11 +25,6 @@
   boot.loader.efi.canTouchEfiVariables = false;
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
-
-  networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.enp1s0.useDHCP = lib.mkDefault true;
-
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
   boot.loader.grub.device = "nodev";
 }

@@ -25,13 +25,14 @@
     extra-substituters = "https://devenv.cachix.org";
   };
 
-  outputs = { self, nixpkgs, nixos-generators, disko, systems, ... }:
+  outputs = { self, nixpkgs, nixos-generators, agenix, disko, systems, ... }:
     let
       forEachSystem = nixpkgs.lib.genAttrs (import systems);
       nixosSystem = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           self.nixosModules.default
+          agenix.nixosModules.default
           ./src/hardware
           disko.nixosModules.disko
         ];
@@ -69,6 +70,7 @@
               inherit system;
               modules = [
                 self.nixosModules.default
+                agenix.nixosModules.default
               ];
               format = "docker";
             };
@@ -76,7 +78,7 @@
         };
 
       nixosConfigurations = {
-        nixos = nixosSystem;
+        nix = nixosSystem;
       };
 
       # devShells = forEachSystem

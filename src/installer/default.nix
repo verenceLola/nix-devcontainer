@@ -2,6 +2,7 @@
   imports = [
     ../nix/config.nix
     ../system/security.nix
+    ../features/networking.nix
   ];
 
   systemd.services =
