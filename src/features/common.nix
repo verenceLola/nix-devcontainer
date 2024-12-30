@@ -7,6 +7,8 @@ in
   imports = [
     ../system
     ../nix/config.nix
+    ../secrets
+    ./services.nix
   ];
 
   options = {
