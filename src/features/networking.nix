@@ -5,14 +5,13 @@ in
 {
   options =
     {
-      networking = {
-        machineIP = mkOption {
-          type = types.str;
-        };
-        domain = mkOption {
-          type = types.str;
-          default = "verencelola.home";
-          description = "The domain name for the network";
+      features = {
+        networking = {
+          machineIP = mkOption {
+            type = types.str;
+            default = "172.16.0.109";
+            description = "The IP address of the machine.";
+          };
         };
       };
     };
@@ -20,7 +19,7 @@ in
   config = {
     networking = {
       useDHCP = false;
-      domain = config.networking.domain;
+      domain = "verencelola.home";
       enableIPv6 = false;
       hosts = {
         "10.0.0.1" = [ "pfsense.verencelola.home" ];
