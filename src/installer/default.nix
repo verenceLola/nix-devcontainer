@@ -9,7 +9,7 @@
     {
       install-nixos = {
         enable = true;
-        description = "Install NixOS using Disko";
+        description = "Auto Install NixOS using Disko";
         wantedBy = [ "multi-user.target" ];
         serviceConfig = {
           ExecStartPre = "-${pkgs.disko}/bin/disko-install --flake ${self}#nixos --disk main /dev/sda";

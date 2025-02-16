@@ -37,6 +37,15 @@
           disko.nixosModules.disko
         ];
       };
+      iso = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = {
+          targetSystem = nixosSystem;
+        };
+        modules = [
+          ./src/installer/iso.nix
+        ];
+      };
     in
     {
       # packages = forEachSystem (system: {
@@ -54,18 +63,15 @@
       packages =
         let
           system = "x86_64-linux";
-          pkgs = nixpkgs.legacyPackages.${system};
+          version = "${builtins.substring 0 8 (self.lastModifiedDate or "19700101")}.${self.shortRev or "DIRTY"}";
+          isoDrv = self.nixosConfigurations.iso.config.system.build.isoImage.overrideAttrs {
+            name = "nixos-${version}.iso";
+          };
         in
         {
           ${system} = {
-            default = nixosSystem.config.system.build.toplevel;
-            isoAutoInstaller = nixos-generators.nixosGenerate {
-              inherit system;
-              modules = [
-                (import ./src/installer { inherit self system pkgs; })
-              ];
-              format = "iso";
-            };
+            default = self.packages.${system}.iso;
+            iso = isoDrv;
             docker = nixos-generators.nixosGenerate {
               inherit system;
               modules = [
@@ -78,7 +84,8 @@
         };
 
       nixosConfigurations = {
-        nix = nixosSystem;
+        iso = iso;
+        nixos = nixosSystem;
       };
 
       # devShells = forEachSystem
@@ -132,8 +139,8 @@
         in
         {
           formatter = self.formatter.${system};
-          nixos = self.packages.${system}.default;
-          isoAutoInstaller = self.packages.${system}.isoAutoInstaller;
+          iso = self.packages.${system}.default;
+          nixos = self.nixosConfigurations.nixos.config.system.build.toplevel;
           docker = self.packages.${system}.docker;
         };
     };
