@@ -1,43 +1,14 @@
-{ config, pkgs, lib, modulesPath, targetSystem, ... }:
+{ self, config, pkgs, lib, modulesPath, ... }:
 let
   installer = pkgs.writeShellApplication {
     name = "installer";
     runtimeInputs = with pkgs; [
-      dosfstools
-      e2fsprogs
-      gawk
-      nixos-install-tools
-      util-linux
-      config.nix.package
+      disko
     ];
     text = ''
       set -euo pipefail
 
-      echo "Setting up disks..."
-      for i in $(lsblk -pln -o NAME,TYPE | grep disk | awk '{ print $1 }'); do
-        if [[ "$i" == "/dev/fd0" ]]; then
-          echo "$i is a floppy, skipping..."
-          continue
-        fi
-        if grep -ql "^$i" <(mount); then
-          echo "$i is in use, skipping..."
-        else
-          DEVICE_MAIN="$i"
-          break
-        fi
-      done
-      if [[ -z "$DEVICE_MAIN" ]]; then
-        echo "ERROR: No usable disk found on this machine!"
-        exit 1
-      else
-        echo "Found $DEVICE_MAIN, erasing..."
-      fi
-
-      DISKO_DEVICE_MAIN=''${DEVICE_MAIN#"/dev/"} ${targetSystem.config.system.build.diskoScript}
-
-      echo "Installing the system..."
-      nixos-install --no-channel-copy --no-root-password --option substituters "" --system ${targetSystem.config.system.build.toplevel}
-
+      ${pkgs.disko}/bin/disko-install --flake ${self}#nixos --disk main /dev/sda
       echo "Done! Rebooting..."
       sleep 3
       reboot
