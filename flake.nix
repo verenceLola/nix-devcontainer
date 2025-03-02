@@ -40,7 +40,7 @@
       iso = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {
-          targetSystem = nixosSystem;
+          targetSystem = self.nixosConfigurations.nixos;
         };
         modules = [
           ./src/installer/iso.nix
