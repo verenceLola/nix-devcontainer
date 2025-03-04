@@ -20,6 +20,7 @@
     };
     admin = {
       createHome = true;
+      password = "Platyrhynchos90";
       description = "System Admin";
       extraGroups = [
         "wheel"

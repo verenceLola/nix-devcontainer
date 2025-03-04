@@ -1,6 +1,6 @@
 { ... }: {
   imports = [
     ./disk.nix
-    ./config.nix
+    ./boot.nix
   ];
 }

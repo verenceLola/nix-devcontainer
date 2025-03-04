@@ -20,22 +20,21 @@
     };
   };
 
-  # nixConfig = {
-  #   extra-trusted-public-keys = "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=";
-  #   extra-substituters = "https://devenv.cachix.org";
-  # };
-
   outputs = { self, nixpkgs, nixos-generators, agenix, disko, systems, ... }:
     let
       forEachSystem = nixpkgs.lib.genAttrs (import systems);
+
       nixosSystem = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           self.nixosModules.default
           agenix.nixosModules.default
-          ./src/hardware
+          ./src
           disko.nixosModules.disko
         ];
+        specialArgs = {
+          suggestedHostName = "nixos-${builtins.substring 0 8 self.lastModifiedDate}";
+        };
       };
       iso = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -43,23 +42,11 @@
           targetSystem = self.nixosConfigurations.nixos;
         };
         modules = [
-          ./src/installer/iso.nix
+          ./src/installer
         ];
       };
     in
     {
-      # packages = forEachSystem (system: {
-      #   devenv-up = self.devShells.${system}.default.config.procfileScript;
-      #   devenv-test = self.devShells.${system}.default.config.test;
-      # });
-      # cool = {
-      #   nixosSystem = nixpkgs.lib.nixosSystem {
-      #     system = "x86_64-linux";
-      #     modules = [
-      #       self.nixosModules.default
-      #     ];
-      #   };
-      # };
       packages =
         let
           system = "x86_64-linux";
@@ -88,28 +75,18 @@
         nixos = nixosSystem;
       };
 
-      # devShells = forEachSystem
-      #   (system:
-      #     let
-      #       pkgs = nixpkgs.legacyPackages.${system};
-      #     in
-      #     {
-      #       default = devenv.lib.mkShell {
-      #         inherit inputs pkgs;
-      #         modules = [
-      #           {
-      #             # https://devenv.sh/reference/options/
-      #             packages = [ pkgs.hello ];
-
-      #             enterShell = ''
-      #               hello
-      #             '';
-
-      #             processes.hello.exec = "hello";
-      #           }
-      #         ];
-      #       };
-      #     });
+      devShell = forEachSystem
+        (system:
+          let
+            pkgs = import nixpkgs {
+              inherit system;
+            };
+          in
+          pkgs.mkShell {
+            buildInputs = with pkgs; [
+              nixos-rebuild
+            ];
+          });
 
       nixosModules = {
         features = ./src/features/common.nix;

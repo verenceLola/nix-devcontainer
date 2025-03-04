@@ -1,6 +1,9 @@
 { ... }: {
   imports = [
-    ./config.nix
+    ./networking.nix
     ./security.nix
+    ./services.nix
+    ./programs.nix
+    ./users.nix
   ];
 }
