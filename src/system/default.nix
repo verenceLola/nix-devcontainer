@@ -5,5 +5,6 @@
     ./services.nix
     ./programs.nix
     ./users.nix
+    ./display.nix
   ];
 }
