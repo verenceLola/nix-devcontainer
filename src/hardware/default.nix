@@ -1,1 +1,1 @@
-{ ... }: { imports = [ ./disk.nix ./boot.nix ]; }
+{ ... }: { imports = [ ./disk.nix ./boot.nix ./graphics.nix ]; }

@@ -1,4 +1,4 @@
 { config, pkgs, ... }:
 with pkgs; {
-  config = { environment.systemPackages = [ emacs ]; };
+  config = { environment.systemPackages = [ emacs kitty ]; };
 }

@@ -22,6 +22,7 @@
       url = "github:nix-community/disko/latest";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hyprland = { url = "github:hyprwm/Hyprland"; };
   };
 
   outputs = { self, nixpkgs, nixos-generators, agenix, disko, home-manager
@@ -39,10 +40,7 @@
           ./src
           disko.nixosModules.disko
           home-manager.nixosModules.home-manager
-          {
-
-            home-manager = import ./src/home;
-          }
+          { home-manager = import ./src/home { inputs = inputs; }; }
         ];
         specialArgs = {
           suggestedHostName = suggestedHostName;
@@ -76,15 +74,6 @@
           };
         };
       };
-
-      homeConfigurations =
-        (nixpkgs.lib.genAttrs [ "admin@${suggestedHostName}" ]) (_user:
-          let pkgs = nixpkgs.legacyPackages.x86_64-linux;
-          in home-manager.lib.homeManagerConfiguration {
-            pkgs = pkgs;
-
-            modules = [ ./src/home/admin ];
-          });
 
       nixosConfigurations = {
         iso = iso;
