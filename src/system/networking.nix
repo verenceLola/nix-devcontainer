@@ -1,9 +1,9 @@
-{ config, lib, suggestedHostName, ... }: with lib;
+{ config, lib, suggestedHostName, ... }:
+with lib;
 let
   cfg = config.features.networking;
   myHomeDomain = "verencelola.home";
-in
-{
+in {
   options = {
     features = {
       networking = {
@@ -20,20 +20,12 @@ in
     networking = {
       useDHCP = false;
       domain = myHomeDomain;
-      search = [
-        myHomeDomain
-      ];
+      search = [ myHomeDomain ];
       hostName = suggestedHostName;
       enableIPv6 = false;
-      hosts = {
-        "10.0.0.1" = [ "pfsense.${myHomeDomain}" ];
-      };
-      timeServers = [
-        "pfsense.${myHomeDomain}"
-      ];
-      nameservers = [
-        "10.0.0.1"
-      ];
+      hosts = { "10.0.0.1" = [ "pfsense.${myHomeDomain}" ]; };
+      timeServers = [ "pfsense.${myHomeDomain}" ];
+      nameservers = [ "10.0.0.1" ];
       defaultGateway = {
         interface = "eth0";
         address = "172.16.0.1";
@@ -41,12 +33,10 @@ in
       interfaces = {
         eth0 = {
           ipv4 = {
-            addresses = [
-              {
-                address = cfg.machineIP;
-                prefixLength = 24;
-              }
-            ];
+            addresses = [{
+              address = cfg.machineIP;
+              prefixLength = 24;
+            }];
           };
         };
       };

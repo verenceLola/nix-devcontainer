@@ -1,17 +1,12 @@
-{ config, lib, ... }: with lib; {
+{ config, lib, ... }:
+with lib; {
   config = {
     services = {
-      resolved = {
-        enable = true;
-      };
-      qemuGuest = {
-        enable = true;
-      };
+      resolved = { enable = true; };
+      qemuGuest = { enable = true; };
       openssh = {
         enable = true;
-        settings = {
-          PermitRootLogin = "yes";
-        };
+        settings = { PermitRootLogin = "yes"; };
       };
     };
   };

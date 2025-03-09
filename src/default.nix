@@ -1,4 +1,5 @@
-{ lib, modulesPath, ... }: with lib; {
+{ lib, modulesPath, ... }:
+with lib; {
 
   imports = [
     (modulesPath + "/profiles/qemu-guest.nix")
@@ -14,7 +15,5 @@
     ./users/admin.nix # Admin User
   ];
 
-  system = {
-    stateVersion = "25.05";
-  };
+  system = { stateVersion = "25.05"; };
 }

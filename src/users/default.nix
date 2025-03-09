@@ -1,5 +1,1 @@
-{ pkgs, ... }: {
-  users = {
-    defaultUserShell = pkgs.zsh;
-  };
-}
+{ pkgs, ... }: { users = { defaultUserShell = pkgs.zsh; }; }

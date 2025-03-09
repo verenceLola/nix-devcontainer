@@ -1,14 +1,10 @@
-{ config, lib, ... }: with lib;
+{ config, lib, ... }:
+with lib;
 let
   availablePrograms = import ../programs.nix { };
   # requiredPkgs = import ../packages.nix { inherit pkgs; };
-in
-{
-  imports = [
-    ../nix/config.nix
-    ../secrets
-    ./services.nix
-  ];
+in {
+  imports = [ ../nix/config.nix ../secrets ./services.nix ];
 
   options = {
     features = {
@@ -23,9 +19,7 @@ in
         };
       };
       editors = {
-        enable = mkEneableOption "Install common editors" {
-          default = true;
-        };
+        enable = mkEneableOption "Install common editors" { default = true; };
       };
     };
   };

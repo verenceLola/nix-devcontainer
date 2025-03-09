@@ -1,15 +1,10 @@
-{ config, lib, ... }: with lib;
-let
-  cfg = config.features.security;
-in
-{
+{ config, lib, ... }:
+with lib;
+let cfg = config.features.security;
+in {
   options = {
-    enableSudo = mkEnableOption "Enable Sudo" {
-      default = true;
-    };
-    installMyCA = mkEnableOption "Install My CA" {
-      default = true;
-    };
+    enableSudo = mkEnableOption "Enable Sudo" { default = true; };
+    installMyCA = mkEnableOption "Install My CA" { default = true; };
   };
 
   config = {

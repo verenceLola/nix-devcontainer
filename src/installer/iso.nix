@@ -47,8 +47,7 @@ let
     ${lib.getExe installer} || echo "ERROR: Installation failure!"
     sleep 3600
   '';
-in
-{
+in {
   imports = [
     (modulesPath + "/installer/cd-dvd/iso-image.nix")
     (modulesPath + "/profiles/all-hardware.nix")
@@ -62,10 +61,12 @@ in
     packages = [ pkgs.terminus_font ];
   };
 
-  isoImage.isoName = "${config.isoImage.isoBaseName}-${config.system.nixos.label}-${pkgs.stdenv.hostPlatform.system}.iso";
+  isoImage.isoName =
+    "${config.isoImage.isoBaseName}-${config.system.nixos.label}-${pkgs.stdenv.hostPlatform.system}.iso";
   isoImage.makeEfiBootable = true;
   isoImage.makeUsbBootable = true;
-  isoImage.squashfsCompression = "zstd -Xcompression-level 15"; # xz takes forever
+  isoImage.squashfsCompression =
+    "zstd -Xcompression-level 15"; # xz takes forever
 
   systemd.services."getty@tty1" = {
     overrideStrategy = "asDropin";

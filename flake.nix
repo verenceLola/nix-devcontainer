@@ -33,60 +33,46 @@
           disko.nixosModules.disko
         ];
         specialArgs = {
-          suggestedHostName = "nixos-${builtins.substring 0 8 self.lastModifiedDate}";
+          suggestedHostName =
+            "nixos-${builtins.substring 0 8 self.lastModifiedDate}";
         };
       };
       iso = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = {
-          targetSystem = self.nixosConfigurations.nixos;
-        };
-        modules = [
-          ./src/installer
-        ];
+        specialArgs = { targetSystem = self.nixosConfigurations.nixos; };
+        modules = [ ./src/installer ];
       };
-    in
-    {
-      packages =
-        let
-          system = "x86_64-linux";
-          version = "${builtins.substring 0 8 (self.lastModifiedDate or "19700101")}.${self.shortRev or "DIRTY"}";
-          isoDrv = self.nixosConfigurations.iso.config.system.build.isoImage.overrideAttrs {
+    in {
+      packages = let
+        system = "x86_64-linux";
+        version =
+          "${builtins.substring 0 8 (self.lastModifiedDate or "19700101")}.${
+            self.shortRev or "DIRTY"
+          }";
+        isoDrv =
+          self.nixosConfigurations.iso.config.system.build.isoImage.overrideAttrs {
             name = "nixos-${version}.iso";
           };
-        in
-        {
-          ${system} = {
-            default = self.packages.${system}.iso;
-            iso = isoDrv;
-            docker = nixos-generators.nixosGenerate {
-              inherit system;
-              modules = [
-                self.nixosModules.default
-                agenix.nixosModules.default
-              ];
-              format = "docker";
-            };
+      in {
+        ${system} = {
+          default = self.packages.${system}.iso;
+          iso = isoDrv;
+          docker = nixos-generators.nixosGenerate {
+            inherit system;
+            modules = [ self.nixosModules.default agenix.nixosModules.default ];
+            format = "docker";
           };
         };
+      };
 
       nixosConfigurations = {
         iso = iso;
         nixos = nixosSystem;
       };
 
-      devShell = forEachSystem
-        (system:
-          let
-            pkgs = import nixpkgs {
-              inherit system;
-            };
-          in
-          pkgs.mkShell {
-            buildInputs = with pkgs; [
-              nixos-rebuild
-            ];
-          });
+      devShell = forEachSystem (system:
+        let pkgs = import nixpkgs { inherit system; };
+        in pkgs.mkShell { buildInputs = with pkgs; [ nixos-rebuild ]; });
 
       nixosModules = {
         features = ./src/features/common.nix;
@@ -94,31 +80,23 @@
       };
 
       formatter = forEachSystem (system:
-        let
-          pkgs = nixpkgs.legacyPackages.${system};
-        in
-        pkgs.writeShellApplication {
+        let pkgs = nixpkgs.legacyPackages.${system};
+        in pkgs.writeShellApplication {
           name = "format";
-          runtimeInputs = with pkgs; [
-            nixpkgs-fmt
-            deadnix
-          ];
+          runtimeInputs = with pkgs; [ nixfmt-classic deadnix ];
           text = ''
             set -o xtrace
-            nixpkgs-fmt .
+            shopt -s globstar
+            nixfmt ./**/*.nix
             deadnix --edit "$@"
           '';
-        }
-      );
-      hydraJobs =
-        let
-          system = "x86_64-linux";
-        in
-        {
-          formatter = self.formatter.${system};
-          iso = self.packages.${system}.default;
-          nixos = self.nixosConfigurations.nixos.config.system.build.toplevel;
-          docker = self.packages.${system}.docker;
-        };
+        });
+      hydraJobs = let system = "x86_64-linux";
+      in {
+        formatter = self.formatter.${system};
+        iso = self.packages.${system}.default;
+        nixos = self.nixosConfigurations.nixos.config.system.build.toplevel;
+        docker = self.packages.${system}.docker;
+      };
     };
 }

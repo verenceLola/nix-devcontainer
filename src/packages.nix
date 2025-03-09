@@ -1,4 +1,5 @@
-{ pkgs }: with pkgs; {
+{ pkgs }:
+with pkgs; {
   common = with pkgs; {
     editors = [
       # Editor software
@@ -9,8 +10,6 @@
       # Version control
       git
     ];
-    access = [
-      gnupg
-    ];
+    access = [ gnupg ];
   };
 }

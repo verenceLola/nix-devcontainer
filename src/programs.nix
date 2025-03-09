@@ -1,9 +1,1 @@
-{}: {
-  common = {
-    gnupg = {
-      agent = {
-        enable = true;
-      };
-    };
-  };
-}
+{ }: { common = { gnupg = { agent = { enable = true; }; }; }; }
