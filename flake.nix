@@ -6,6 +6,10 @@
       url = "github:cachix/devenv";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     agenix = {
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -20,9 +24,12 @@
     };
   };
 
-  outputs = { self, nixpkgs, nixos-generators, agenix, disko, systems, ... }:
+  outputs = { self, nixpkgs, nixos-generators, agenix, disko, home-manager
+    , systems, ... }@inputs:
     let
       forEachSystem = nixpkgs.lib.genAttrs (import systems);
+      suggestedHostName =
+        "nixos-${builtins.substring 0 8 self.lastModifiedDate}";
 
       nixosSystem = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -31,10 +38,15 @@
           agenix.nixosModules.default
           ./src
           disko.nixosModules.disko
+          home-manager.nixosModules.home-manager
+          {
+
+            home-manager = import ./src/home;
+          }
         ];
         specialArgs = {
-          suggestedHostName =
-            "nixos-${builtins.substring 0 8 self.lastModifiedDate}";
+          suggestedHostName = suggestedHostName;
+          inherit inputs;
         };
       };
       iso = nixpkgs.lib.nixosSystem {
@@ -64,6 +76,15 @@
           };
         };
       };
+
+      homeConfigurations =
+        (nixpkgs.lib.genAttrs [ "admin@${suggestedHostName}" ]) (_user:
+          let pkgs = nixpkgs.legacyPackages.x86_64-linux;
+          in home-manager.lib.homeManagerConfiguration {
+            pkgs = pkgs;
+
+            modules = [ ./src/home/admin ];
+          });
 
       nixosConfigurations = {
         iso = iso;

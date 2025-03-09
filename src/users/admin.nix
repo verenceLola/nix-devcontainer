@@ -1,4 +1,4 @@
-{ lib, config, ... }:
+{ inputs, pkgs, lib, config, ... }:
 with lib; {
   users.users = {
     admin = {
@@ -15,6 +15,7 @@ with lib; {
           keys = [ config.age.secrets.admin_private_key.path ];
         };
       };
+      packages = [ inputs.home-manager.packages.${pkgs.system}.default ];
     };
   };
 }
