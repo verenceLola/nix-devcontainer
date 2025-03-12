@@ -1,5 +1,5 @@
 { config, lib, ... }: {
-  imports = [ ./ssh.nix ];
+  imports = [ ./ssh.nix ./acme.nix ];
 
   age = {
     identityPaths = [

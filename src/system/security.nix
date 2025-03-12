@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 let
   myRootCa = pkgs.fetchurl {
     url = "https://ca.verencelola.home/roots.pem";
@@ -26,6 +26,17 @@ in {
           }
         });
       '';
+    };
+    acme = {
+      acceptTerms = true;
+      preliminarySelfsigned = false;
+      defaults = {
+        server = "https://ca.verencelola.home/acme/acme/directory";
+        renewInterval = "daily";
+        email = "acme@verencelola.com";
+        dnsProvider = "rfc2136";
+        environmentFile = config.age.secrets.dns-rfc2136.path;
+      };
     };
   };
 }
