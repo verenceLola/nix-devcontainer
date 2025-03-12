@@ -40,6 +40,7 @@ in {
           };
         };
       };
+      firewall = { allowedTCPPorts = [ 5900 ]; };
     };
   };
 }

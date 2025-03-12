@@ -4,8 +4,10 @@
     systemd.enable = false;
     settings = {
       "$mod" = "SUPER";
+      "exec-once" = "uwsm app -- wayvnc -L debug --gpu";
+      "exec-shutdown" = "uwsm app -- wayvncctl wayvnc-exit";
       "debug:disable_logs" = false;
-      bind = [ "$mod, F, exec, firefox" ", Print, exec, grimblast copy area" ]
+      bind = [ "$mod, F, exec, kitty" ", Print, exec, grimblast copy area" ]
         ++ (
           # workspaces
           # binds $mod + [shift +] {1..9} to [move to] workspace {1..9}
