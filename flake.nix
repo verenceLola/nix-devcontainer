@@ -82,7 +82,15 @@
 
       devShell = forEachSystem (system:
         let pkgs = import nixpkgs { inherit system; };
-        in pkgs.mkShell { buildInputs = with pkgs; [ nixos-rebuild ]; });
+        in pkgs.mkShell {
+          EDITOR = "${pkgs.emacs}/bin/emacs";
+          RULES = "src/secrets/secrets.nix"; # Agenix rules file
+          buildInputs = with pkgs; [
+            nixos-rebuild
+            agenix.packages."${system}".default
+            emacs
+          ];
+        });
 
       nixosModules = {
         features = ./src/features/common.nix;
