@@ -37,6 +37,13 @@ in {
         dnsProvider = "rfc2136";
         environmentFile = config.age.secrets.dns-rfc2136.path;
       };
+      certs = {
+        "${config.networking.fqdn}" = {
+          group = "users";
+          enableDebugLogs = true;
+          dnsPropagationCheck = false;
+        };
+      };
     };
   };
 }
