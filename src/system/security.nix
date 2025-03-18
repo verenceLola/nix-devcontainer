@@ -35,7 +35,7 @@ in {
         renewInterval = "daily";
         email = "acme@verencelola.com";
         dnsProvider = "rfc2136";
-        environmentFile = config.age.secrets.dns-rfc2136.path;
+        environmentFile = config.sops.templates.acme-env-file.path;
       };
       certs = {
         "${config.networking.fqdn}" = {

@@ -23,10 +23,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hyprland = { url = "github:hyprwm/Hyprland"; };
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, nixos-generators, agenix, disko, home-manager
-    , systems, ... }@inputs:
+  outputs = { self, nixpkgs, disko, home-manager, systems, ... }@inputs:
     let
       forEachSystem = nixpkgs.lib.genAttrs (import systems);
       suggestedHostName =
@@ -36,7 +39,6 @@
         system = "x86_64-linux";
         modules = [
           self.nixosModules.default
-          agenix.nixosModules.default
           ./src
           disko.nixosModules.disko
           home-manager.nixosModules.home-manager
@@ -67,11 +69,11 @@
         ${system} = {
           default = self.packages.${system}.iso;
           iso = isoDrv;
-          docker = nixos-generators.nixosGenerate {
-            inherit system;
-            modules = [ self.nixosModules.default agenix.nixosModules.default ];
-            format = "docker";
-          };
+          # docker = nixos-generators.nixosGenerate {
+          #   inherit system;
+          #   modules = [ ./src/features/common.nix ];
+          #   format = "docker";
+          # };
         };
       };
 
@@ -84,12 +86,7 @@
         let pkgs = import nixpkgs { inherit system; };
         in pkgs.mkShell {
           EDITOR = "${pkgs.emacs}/bin/emacs";
-          RULES = "src/secrets/secrets.nix"; # Agenix rules file
-          buildInputs = with pkgs; [
-            nixos-rebuild
-            agenix.packages."${system}".default
-            emacs
-          ];
+          buildInputs = with pkgs; [ nixos-rebuild emacs sops ];
         });
 
       nixosModules = {
@@ -114,7 +111,7 @@
         formatter = self.formatter.${system};
         iso = self.packages.${system}.default;
         nixos = self.nixosConfigurations.nixos.config.system.build.toplevel;
-        docker = self.packages.${system}.docker;
+        # docker = self.packages.${system}.docker;
       };
     };
 }

@@ -1,4 +1,30 @@
 { config, pkgs, ... }:
 with pkgs; {
-  config = { environment.systemPackages = [ emacs kitty wayvnc ]; };
+  config = {
+    environment = {
+      systemPackages = [ emacs kitty wayvnc ];
+      etc = {
+        ssh-key = {
+          user = config.users.users.admin.name;
+          group = config.users.users.admin.group;
+          mode = "0600";
+          target = "ssh/ssh_host_ed25519_key";
+          source = ../secrets/ssh.key;
+        };
+        ssh-public-key = {
+          user = "root";
+          group = "root";
+          mode = "0644";
+          target = "ssh/ssh_host_ed25519_key.pub";
+          source = config.sops.secrets."ssh/ed25519/pub".path;
+        };
+        wayvnc = {
+          target = "wayvnc/config";
+          source = config.sops.templates.wayvnc-config.path;
+          mode = "0755";
+          group = "video";
+        };
+      };
+    };
+  };
 }
