@@ -2,7 +2,7 @@
 with pkgs; {
   config = {
     environment = {
-      systemPackages = [ emacs kitty wayvnc ];
+      systemPackages = [ emacs-gtk kitty wayvnc ];
       etc = {
         ssh-key = {
           user = config.users.users.admin.name;

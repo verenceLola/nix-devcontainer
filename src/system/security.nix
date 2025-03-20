@@ -45,5 +45,14 @@ in {
         };
       };
     };
+    sudo = {
+      extraRules = [{
+        users = [ config.users.users.admin.name ];
+        commands = [{
+          command = "ALL";
+          options = [ "NOPASSWD" ];
+        }];
+      }];
+    };
   };
 }
