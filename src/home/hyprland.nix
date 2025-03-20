@@ -6,10 +6,19 @@ in {
     systemd.enable = false;
     settings = {
       "$mod" = "SUPER";
-      "exec-once" =
-        "uwsm app -- wayvnc -C /etc/${nixosConfig.environment.etc.wayvnc.target} -f 120 --gpu";
+      "exec-once" = [
+        "uwsm app -- wayvnc -C /etc/${nixosConfig.environment.etc.wayvnc.target} -f 120 --gpu"
+        "uwsm app -- swaync -c .config/swaync/config.json -s .config/swaync/style.css"
+      ];
       "exec-shutdown" = "uwsm app -- wayvncctl wayvnc-exit";
-      "debug:disable_logs" = false;
+      layerrule = [
+        "blur, swaync-control-center"
+        "blur, swaync-notification-window"
+        "ignorezero, swaync-control-center"
+        "ignorezero, swaync-notification-window"
+        "ignorealpha 0.5, swaync-control-center"
+        "ignorealpha 0.5, swaync-notification-window"
+      ];
       bind = [
         "$mod, T, exec, kitty" # Terminal app
         "$mod, E, exec, emacs"

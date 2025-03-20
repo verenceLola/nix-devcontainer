@@ -1,4 +1,6 @@
 { config, ... }: {
+  imports = [ ../swaync ];
+
   home = {
     username = "admin";
     stateVersion = "25.05";

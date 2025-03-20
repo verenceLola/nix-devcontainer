@@ -2,7 +2,14 @@
 with pkgs; {
   config = {
     environment = {
-      systemPackages = [ emacs-gtk kitty wayvnc grimblast ];
+      systemPackages = [
+        emacs-gtk
+        kitty # Default terminal
+        wayvnc # VNC server
+        grimblast # Screenshots
+        swaynotificationcenter # Notifications GUI
+        pywal # color pallets
+      ];
       etc = {
         ssh-key = {
           user = config.users.users.admin.name;
