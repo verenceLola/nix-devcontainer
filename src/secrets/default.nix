@@ -34,6 +34,12 @@
     };
 
     secrets = {
+      # Nix Config
+      "nix/accessTokens/app.gitlab.verencelola.home" = {
+        mode = "0440";
+        group = "users";
+      };
+
       # DNS Secrets
       "dns_rfc2136/key" = { };
       "dns_rfc2136/nameserver" = { };
