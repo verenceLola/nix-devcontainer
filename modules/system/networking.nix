@@ -9,7 +9,7 @@ in {
       networking = {
         machineIP = mkOption {
           type = types.str;
-          default = "172.16.0.110";
+          # default = "172.16.0.110";
           description = "The IP address of the machine.";
         };
       };

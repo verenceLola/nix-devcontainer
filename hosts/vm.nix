@@ -8,6 +8,7 @@ let
     "secrets"
     "system"
     "users/admin.nix"
+    "networking/vm.nix"
   ];
 
 in nixpkgs.lib.nixosSystem {

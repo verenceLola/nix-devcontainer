@@ -76,6 +76,4 @@ in {
       StandardInput = "null";
     };
   };
-
-  system.stateVersion = "25.05";
 }

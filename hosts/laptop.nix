@@ -6,6 +6,7 @@ let
     "secrets" # Secrets
     "system" # System defaults
     "users/admin.nix" # Admin user
+    "networking/laptop.nix" # Networking
   ];
 
 in nixpkgs.lib.nixosSystem {
