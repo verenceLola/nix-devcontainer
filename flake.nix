@@ -29,46 +29,14 @@
     };
   };
 
-  outputs = { self, nixpkgs, disko, home-manager, systems, ... }@inputs:
-    let
-      forEachSystem = nixpkgs.lib.genAttrs (import systems);
-      suggestedHostName =
-        "nixos-${builtins.substring 0 8 self.lastModifiedDate}";
-
-      nixosSystem = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          self.nixosModules.default
-          ./src
-          disko.nixosModules.disko
-          home-manager.nixosModules.home-manager
-          { home-manager = import ./src/home { inputs = inputs; }; }
-        ];
-        specialArgs = {
-          suggestedHostName = suggestedHostName;
-          inherit inputs;
-        };
-      };
-      iso = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { targetSystem = self.nixosConfigurations.nixos; };
-        modules = [ ./src/installer ];
-      };
+  outputs = { self, nixpkgs, systems, ... }@args:
+    let forEachSystem = nixpkgs.lib.genAttrs (import systems);
     in {
-      packages = let
-        system = "x86_64-linux";
-        version =
-          "${builtins.substring 0 8 (self.lastModifiedDate or "19700101")}.${
-            self.shortRev or "DIRTY"
-          }";
-        isoDrv =
-          self.nixosConfigurations.iso.config.system.build.isoImage.overrideAttrs {
-            name = "nixos-${version}.iso";
-          };
+      packages = let system = "x86_64-linux";
+
       in {
+        # Add .dotfiles as one of the packages
         ${system} = {
-          default = self.packages.${system}.iso;
-          iso = isoDrv;
           # docker = nixos-generators.nixosGenerate {
           #   inherit system;
           #   modules = [ ./src/features/common.nix ];
@@ -77,10 +45,7 @@
         };
       };
 
-      nixosConfigurations = {
-        iso = iso;
-        nixos = nixosSystem;
-      };
+      nixosConfigurations = import ./hosts args;
 
       devShell = forEachSystem (system:
         let pkgs = import nixpkgs { inherit system; };
@@ -88,11 +53,6 @@
           EDITOR = "${pkgs.emacs}/bin/emacs";
           buildInputs = with pkgs; [ nixos-rebuild emacs sops ];
         });
-
-      nixosModules = {
-        features = ./src/features/common.nix;
-        default = self.nixosModules.features;
-      };
 
       formatter = forEachSystem (system:
         let pkgs = nixpkgs.legacyPackages.${system};
@@ -107,11 +67,9 @@
           '';
         });
       hydraJobs = let system = "x86_64-linux";
-      in {
-        formatter = self.formatter.${system};
-        iso = self.packages.${system}.default;
-        nixos = self.nixosConfigurations.nixos.config.system.build.toplevel;
-        # docker = self.packages.${system}.docker;
-      };
+      in nixpkgs.lib.attrsets.mergeAttrsList [
+        { formatter = self.formatter.${system}; }
+        (import ./utils/hydraJobs.nix { inherit self nixpkgs; })
+      ];
     };
 }
