@@ -20,7 +20,7 @@ in {
         "ignorealpha 0.5, swaync-notification-window"
       ];
       bind = [
-        "$mod, T, exec, kitty" # Terminal app
+        "$mod, K, exec, kitty" # Terminal app
         "$mod, E, exec, emacs"
         ", Print, exec, grimblast copy area"
         "$mod, Tab, cyclenext" # change focus to another window

@@ -4,7 +4,7 @@ with lib; {
     admin = {
       createHome = true;
       description = "HomeLab Admin";
-      extraGroups = [ "wheel" "video" "audio" ];
+      extraGroups = [ "wheel" "video" "audio" "input" ];
       isNormalUser = true;
       group = "users";
       hashedPassword =

@@ -7,5 +7,6 @@
     ./users.nix
     ./display.nix
     ./environment.nix
+    ./fonts.nix
   ];
 }

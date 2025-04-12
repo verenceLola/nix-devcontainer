@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, pkgs, lib, ... }:
 with lib; {
   config = {
     services = {
@@ -9,6 +9,17 @@ with lib; {
         settings = { PermitRootLogin = "yes"; };
       };
       pipewire = { enable = true; }; # Audio and Video capture
+    };
+    systemd = {
+      user.services = {
+        "waybar" = {
+          enable = true;
+          path = [
+            (pkgs.python3.withPackages (p: with p; [ requests ]))
+            pkgs.busybox
+          ];
+        };
+      };
     };
   };
 }

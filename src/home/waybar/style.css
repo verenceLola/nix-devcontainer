@@ -1,0 +1,222 @@
+:root {
+    --bar-padding: 8px;
+    --bar-font-size: 18px;
+    --border-radius: 4px;
+    --background-color: #383c4a;
+    --color-white: #ffffff;
+    --color-hovered: #383c4a;
+    --background-hovered: #7c818c;
+}
+
+* {
+    border: none;
+    border-radius: 0;
+    /* `otf-font-awesome` is required to be installed for icons */
+    font-family: Liberation Mono;
+}
+
+window#waybar {
+    background: transparent;
+}
+
+window#waybar.hidden {
+    opacity: 0.2;
+}
+
+#workspaces {
+    border-radius: var(--border-radius);
+    transition: none;
+    background: var(--background-color);
+}
+
+#workspaces button {
+    transition: none;
+    color: var(--color-hovered);
+    background: transparent;
+    padding: 5px;
+    font-size: var(--bar-font-size);
+}
+
+#workspaces button.persistent {
+    color: var(--color-hovered);
+    font-size: var(--bar-font-size);
+}
+
+/* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
+#workspaces button:hover {
+    transition: none;
+    box-shadow: inherit;
+    text-shadow: inherit;
+    border-radius: inherit;
+    color: #383c4a;
+    background: var(--color-hovered);
+}
+
+#workspaces button.focused {
+    color: white;
+}
+
+#language {
+    padding-left: 16px;
+    padding-right: 8px;
+    border-radius: 10px 0px 0px 10px;
+    transition: none;
+    color: #ffffff;
+    background: #383c4a;
+}
+
+#keyboard-state {
+    margin-right: 8px;
+    padding-right: 16px;
+    border-radius: 0px 10px 10px 0px;
+    transition: none;
+    color: #ffffff;
+    background: #383c4a;
+}
+
+#custom-pacman {
+    padding-left: 16px;
+    padding-right: 8px;
+    border-radius: 10px 0px 0px 10px;
+    transition: none;
+    color: #ffffff;
+    background: #383c4a;
+}
+
+#custom-mail {
+    margin-right: 8px;
+    padding-right: 16px;
+    border-radius: 0px 10px 10px 0px;
+    transition: none;
+    color: #ffffff;
+    background: #383c4a;
+}
+
+#mode {
+    padding-left: 16px;
+    padding-right: 16px;
+    border-radius: 10px;
+    transition: none;
+    color: #ffffff;
+    background: #383c4a;
+}
+
+#clock {
+    padding-left: var(--bar-padding);
+    padding-right: var(--bar-padding);
+    border-radius: var(--border-radius) 0px 0px var(--border-radius);
+    transition: none;
+    color: var(--color-white);
+    background: var(--background-color);
+}
+
+#user {
+    padding: 16px 10px;
+    border-radius: 10px;
+    transition: none;
+    color: var(--color-white);
+    background: var(--background-color);
+}
+
+#custom-weather {
+    padding-right: 16px;
+    border-radius: 0px 10px 10px 0px;
+    transition: none;
+    color: var(--color-white);
+    background: var(--background-color);
+}
+
+#pulseaudio {
+    margin-right: 8px;
+    padding-left: 16px;
+    padding-right: 16px;
+    border-radius: 10px;
+    transition: none;
+    color: var(--color-white);
+    background: #383c4a;
+}
+
+#pulseaudio.muted {
+    background-color: #90b1b1;
+    color: #2a5c45;
+}
+
+#custom-mem {
+    margin-right: 8px;
+    padding-left: 16px;
+    padding-right: 16px;
+    border-radius: 10px;
+    transition: none;
+    color: #ffffff;
+    background: #383c4a;
+}
+
+#temperature {
+    margin-right: 8px;
+    padding-left: 16px;
+    padding-right: 16px;
+    border-radius: 10px;
+    transition: none;
+    color: #ffffff;
+    background: #383c4a;
+}
+
+#temperature.critical {
+    background-color: #eb4d4b;
+}
+
+#backlight {
+    margin-right: 8px;
+    padding-left: 16px;
+    padding-right: 16px;
+    border-radius: 10px;
+    transition: none;
+    color: #ffffff;
+    background: #383c4a;
+}
+
+#battery {
+    margin-right: 8px;
+    padding-left: 16px;
+    padding-right: 16px;
+    border-radius: 10px;
+    transition: none;
+    color: #ffffff;
+    background: #383c4a;
+}
+
+#battery.charging {
+    color: #ffffff;
+    background-color: #26A65B;
+}
+
+#battery.warning:not(.charging) {
+    background-color: #ffbe61;
+    color: black;
+}
+
+#battery.critical:not(.charging) {
+    background-color: #f53c3c;
+    color: #ffffff;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+#tray {
+    padding-left: 16px;
+    padding-right: 16px;
+    border-radius: 10px;
+    transition: none;
+    color: #ffffff;
+    background: #383c4a;
+}
+
+@keyframes blink {
+    to {
+        background-color: #ffffff;
+        color: #000000;
+    }
+}

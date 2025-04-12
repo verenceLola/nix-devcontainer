@@ -1,5 +1,5 @@
 { config, ... }: {
-  imports = [ ../swaync ];
+  imports = [ ../swaync ../waybar ];
 
   home = {
     username = "admin";
