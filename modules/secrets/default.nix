@@ -31,6 +31,11 @@
         '';
         group = "video";
       };
+      "wireless.conf" = {
+        content = ''
+          psk_verenceLola=${config.sops.placeholder."wireless/psk_verenceLola"}
+        '';
+      };
     };
 
     secrets = {
@@ -53,6 +58,9 @@
       # VNC
       "vnc/password" = { };
       "vnc/username" = { };
+
+      # Wireless
+      "wireless/psk_verenceLola" = { };
     };
   };
 }
