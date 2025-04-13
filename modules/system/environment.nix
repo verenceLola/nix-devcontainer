@@ -10,6 +10,7 @@
         grimblast # Screenshots
         swaynotificationcenter # Notifications GUI
         pywal # color pallets
+        pavucontrol # Audio controls
       ];
       etc = {
         ssh-key = {

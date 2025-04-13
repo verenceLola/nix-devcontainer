@@ -1,13 +1,13 @@
 {
-    // "layer": "top", // Waybar at top layer
-    // "position": "bottom", // Waybar position (top|bottom|left|right)
-    // "height": 30, // Waybar height (to be removed for auto height)
-    "margin": "20 20 0 20",
-    // "width": 1280, // Waybar width
-    // Choose the order of the modules
-    "modules-left": ["hyprland/workspaces", "hyprland/language", "keyboard-state", "user", "hyprland/submap"],
+    "layer": "top", // Waybar at top layer
+    "margin": "4 4 0 4",
+    "spacing": 8,
+    "reverse-scrolling": true,
+    "reverse-mouse-scrolling": true,
+    "reload_style_on_change": true,
+    "modules-left": ["hyprland/workspaces", "load", "hyprland/submap"],
     "modules-center": ["clock", "custom/weather"],
-    "modules-right": ["pulseaudio", "custom/mem","disk", "backlight", "battery", "tray"],
+    "modules-right": ["temperature", "network", "disk", "pulseaudio", "backlight", "battery"],
 
 
     //***************************
@@ -15,16 +15,13 @@
     //***************************
 
     "hyprland/workspaces": {
-        "format": "{id}",
-        "all-outputs": true,
-        "on-click": "activate",
-        "sort-by-number": true
-    },
-
-    "hyprland/language": {
-        "format": "LANG: {}",
-        "min-length": 5,
-        "tooltip": false
+        "format": "{icon} ",
+        "format-icons": {
+            "1": "", // home
+            "2": "󰥖", // browse
+            "3": "", // code
+            "default": ""
+        }
     },
 
     "user": {
@@ -36,95 +33,120 @@
     },
 
     "disk": {
-        "format": "{percentage_free}% {icon}",
-        "path": "/",
-        "format_icons": [
-            "#f538"
-        ],
-        "tooltip_format": "{specific_free:0.2f} GB our of {specific_total:0.2f} GB available"
+        "interval": 30,
+        "states": {
+            "warning": 70,
+            "critical": 95
+        },
+        "format": "{free} ",
+        "path": "/"
     },
 
-    "keyboard-state": {
-        //"numlock": true,
-        "capslock": true,
-        "format": "{name} {icon} ",
-        "format-icons": {
-            "locked": " ",
-            "unlocked": ""
-        }
+    "network": {
+        "interval": 10,
+        "format": "{ifname}",
+        "format-wifi": "{signalStrength}% 󱚽",
+        "format-ethernet": "{ipaddr}/{cidr} 󰊗",
+        "format-disconnected": "󰈂",
+        "tooltip-format": "{ifname} via {gwaddr} 󰊗",
+        "tooltip-format-wifi": "{essid} ({signalStrength}%) 󱚽",
+        "tooltip-format-ethernet": "{ifname} ",
+        "tooltip-format-disconnected": "󰖪"
     },
 
     "clock": {
-        "timezone": "Africa/Nairobi",
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        "format": "{:%a, %d %b, %I:%M %p}"
+        "interval": 1,
+        "format": "{:L%a, %b %d, %H:%M:%S} 󱑏",
+        "format-alt": "{:%H:%M} ",
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        "calendar": {
+            "mode"          : "month",
+            "mode-mon-col"  : 3,
+            "weeks-pos"     : "left",
+            "on-scroll"     : 1,
+            "format": {
+                "months":     "<span color='#ffead3'><b>{}</b></span>",
+                "days":       "<span color='#ffffff'><b>{}</b></span>",
+                "weeks":      "<span color='#ffcc66'><b>{}</b></span>",
+                "weekdays":   "<span color='#ffcc66'><b>{}</b></span>",
+                "today":      "<span color='#99ffdd'><b><u>{}</u></b></span>"
+                }
+            },
+        "actions":  {
+            "on-click-right": "mode",
+            "on-click-forward": "tz_up",
+            "on-click-backward": "tz_down",
+            "on-scroll-up": "shift_up",
+            "on-scroll-down": "shift_down"
+        }
     },
 
-    "custom/weather": {
-        "format": "{}",
-        "tooltip": true,
-        "interval": 1800,
-        "exec": "$HOME/.config/waybar/scripts/wttr.py",
-        "return-type": "json"
+    "load": {
+        "interval": 1,
+        "format": "  {load1}"
     },
 
     "pulseaudio": {
-        // "scroll-step": 1, // %, can be a float
         "reverse-scrolling": 1,
-        "format": "{volume}% {icon} {format_source}",
-        "format-bluetooth": "{volume}% {icon} {format_source}",
-        "format-bluetooth-muted": " {icon} {format_source}",
-        "format-muted": "婢 {format_source}",
+        "format": "{volume}% {icon}  {format_source}",
+        "format-bluetooth": "{volume}% {icon}",
+        "format-muted": "0% 󰝟",
         "format-source": "{volume}% ",
         "format-source-muted": "",
         "format-icons": {
+            "alsa_output.pci-0000_00_1f.3.analog-stereo": "",
+            "alsa_output.pci-0000_00_1f.3.analog-stereo-muted": "",
             "headphone": "",
-            "hands-free": "",
-            "headset": "",
+            "hands-free": "",
+            "headset": "",
             "phone": "",
+            "phone-muted": "",
             "portable": "",
             "car": "",
-            "default": ["奄", "奔", "墳"]
+            "default": ["", ""]
         },
+        "scroll-step": 1,
         "on-click": "pavucontrol",
-        "min-length": 13
-    },
-
-    "custom/mem": {
-        "format": "{}",
-        "interval": 3,
-        "exec": "free -h | awk '/Mem:/{printf $3}'",
         "tooltip": false
     },
 
     "temperature": {
-        // "thermal-zone": 2,
-        // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+        "thermal-zone": 8,
         "critical-threshold": 80,
-        // "format-critical": "{temperatureC}°C {icon}",
+        "format-critical": "{temperatureC}°C {icon}",
         "format": "{temperatureC}°C {icon}",
         "format-icons": ["", "", "", "", ""],
         "tooltip": false
     },
 
     "backlight": {
-        "device": "intel_backlight",
-        "format": "{percent}% {icon}",
-        "format-icons": ["","","","", "", "", ""],
-        "min-length": 7
+        "states": {
+            "low": 20,
+            "medium": 50,
+            "highest": 90
+        },
+        "format": "{percent}% <span size='large' rise='-1500'>{icon}</span>",
+        "format-icons": ["", "", "󰖨"],
+        "tooltip": false,
+        "reverse-scrolling": 1
     },
 
     "battery": {
+        "interval": 1,
         "states": {
-            "warning": 30,
-            "critical": 15
+            "normal": 95,
+            "warning": 20,
+            "critical": 10
         },
         "format": "{capacity}% {icon}",
-        "format-charging": "{capacity}% ",
-        "format-plugged": "{capacity}% ",
-        "format-alt": "{time} {icon}",
-        "format-icons": ["", "", "", "", "", "", "", "", "", ""],
-        "on-update": "$HOME/.config/waybar/scripts/check_battery.sh"
+        "format-warning-charging": "{icon}",
+        "format-charging": "{capacity}% \udb80\udc84",
+        "format-icons": {
+            "warning":"\uf244",
+            "normal": "\uee62",
+            "critical" :"\udb80\udc83"
+        },
+        "max-length": 25
     },
 
     "tray": {

@@ -1,3 +1,3 @@
 { config, pkgs, ... }: {
-  config = { fonts = { packages = with pkgs; [ font-awesome ]; }; };
+  config = { fonts = { packages = with pkgs; [ nerd-fonts.mplus ]; }; };
 }
