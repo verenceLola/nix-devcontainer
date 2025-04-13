@@ -1,5 +1,10 @@
 {
   imports = [ ./common.nix ];
 
-  config = { networking = { useDHCP = true; }; };
+  config = {
+    networking = {
+      useDHCP = true;
+      wireless = { enable = true; };
+    };
+  };
 }

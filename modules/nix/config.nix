@@ -13,6 +13,7 @@
         config.sops.secrets."nix/accessTokens/app.gitlab.verencelola.home".path
       }
     '';
+    nixPath = [ "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos" ];
   };
 
   system = { stateVersion = "24.11"; };

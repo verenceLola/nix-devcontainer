@@ -1,8 +1,9 @@
-{ config, pkgs, ... }:
-with pkgs; {
+{ config, pkgs, ... }: {
   config = {
     environment = {
-      systemPackages = [
+      systemPackages = with pkgs; [
+        firefox # Firefox
+        direnv # Shell environment
         emacs-gtk
         kitty # Default terminal
         wayvnc # VNC server

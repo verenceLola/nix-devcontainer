@@ -51,7 +51,13 @@
         let pkgs = import nixpkgs { inherit system; };
         in pkgs.mkShell {
           EDITOR = "${pkgs.emacs}/bin/emacs";
-          buildInputs = with pkgs; [ nixos-rebuild emacs sops ];
+          buildInputs = with pkgs; [ nixos-rebuild ssh-to-age emacs sops ];
+          shellHook = ''
+            KEYS_DIR=$HOME/.config/sops/age
+            mkdir -p $KEYS_DIR
+            ssh-add -q # import existing keys
+            ssh-to-age -private-key -i $HOME/.ssh/id_ed25519 -o $KEYS_DIR/keys.txt
+          '';
         });
 
       formatter = forEachSystem (system:
