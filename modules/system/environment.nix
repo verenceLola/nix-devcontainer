@@ -4,7 +4,7 @@
       systemPackages = with pkgs; [
         firefox # Firefox
         direnv # Shell environment
-        emacs-gtk
+        emacs-pgtk
         kitty # Default terminal
         wayvnc # VNC server
         grimblast # Screenshots

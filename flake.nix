@@ -50,7 +50,7 @@
       devShell = forEachSystem (system:
         let pkgs = import nixpkgs { inherit system; };
         in pkgs.mkShell {
-          EDITOR = "${pkgs.emacs}/bin/emacs";
+          EDITOR = "${pkgs.emacs-pgtk}/bin/emacs";
           buildInputs = with pkgs; [ nixos-rebuild ssh-to-age emacs sops ];
           shellHook = ''
             KEYS_DIR=$HOME/.config/sops/age
