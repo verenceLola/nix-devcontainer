@@ -1,5 +1,8 @@
 { inputs, config, pkgs, ... }: {
   config = {
+    environment = {
+      systemPackages = [ inputs.swww.packages.${pkgs.system}.swww ];
+    };
     programs.hyprland = {
       enable = true;
       # set the flake package
@@ -15,16 +18,6 @@
         enable = true;
         group = "video";
       };
-      #   displayManager = { sddm.enable = true; };
-      #   xserver = {
-      #     enable = true;
-      #     desktopManager = { plasma5.enable = true; };
-      #   };
-      #   xrdp = {
-      #     enable = true;
-      #     defaultWindowManager = "startplasma-x11";
-      #     openFirewall = true;
-      #   };
     };
   };
 }

@@ -9,7 +9,7 @@
         wayvnc # VNC server
         grimblast # Screenshots
         swaynotificationcenter # Notifications GUI
-        pywal # color pallets
+        pywal16 # color pallets
         pavucontrol # Audio controls
       ];
       etc = {

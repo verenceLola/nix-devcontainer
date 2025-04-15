@@ -27,6 +27,7 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    swww.url = "github:LGFae/swww";
   };
 
   outputs = { self, nixpkgs, systems, ... }@args:

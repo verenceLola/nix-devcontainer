@@ -1,3 +1,5 @@
+@import url("/home/admin/.cache/wal/colors-waybar.css");
+
 * {
     border: none;
     border-radius: 0;
@@ -13,41 +15,39 @@ window#waybar {
 
 tooltip {
   border-radius: 8px;
-  background-color: #000000;
+  background-color: @color5;
 }
 
 tooltip label {
-  color: white;
+  color: @background;
 }
 
 #workspaces button {
     padding: 0 5px;
     background: transparent;
-    color: white;
+    color: @color1;
 }
 
 #workspaces button.active {
-    color: black;
-    background-color: white;
+    color: @color1;
+    background-color: @background;
     border-radius: 50%;
     padding: 0 4px;
 }
 
-#workspaces button.focused {
-    background: #64727D;
-    border-bottom: 3px solid white;
-}
-
-#mode {
-    background: #64727D;
-    border-bottom: 3px solid white;
+#workspaces button:not(.active) {
+    background-color: @color1;
+    border-radius: 50%;
+    color: @color0;
+    padding: 0 2px;
+    margin: 2px;
 }
 
 #clock {
-    background-color: white;
+    background-color: @background;
     border-radius: 16px;
     padding: 2px 14px;
-    color: black;
+    color: @color1;
 }
 
 #temperature.critical {
@@ -55,31 +55,31 @@ tooltip label {
 }
 
 #temperature {
-    background-color: white;
+    background-color: @background;
     border-radius: 16px;
     padding: 2px 14px;
-    color: black;
+    color: @color1;
 }
 
 #load {
-    background-color: white;
+    background-color: @background;
     border-radius: 16px;
-    color: black;
+    color: @color1;
     padding: 2px 14px;
 }
 
 #pulseaudio {
-    background-color: white;
+    background-color: @background;
     border-radius: 16px;
-    color: black;
+    color: @color1;
     padding: 2px 14px;
 }
 
 #network {
-    background-color: white;
+    background-color: @background;
     padding: 2px 14px;
     border-radius: 16px;
-    color: black;
+    color: @color1;
 } 
 
 #disk.warning {
@@ -91,29 +91,29 @@ tooltip label {
 }
 
 #disk {
-    background-color: white;
+    background-color: @background;
     border-radius: 16px;
-    color: black;
+    color: @color1;
     padding: 2px 14px;
 }
 
 #backlight {
-    background-color: white;
+    background-color: @background;
     border-radius: 16px;
-    color: black;
+    color: @color1;
     padding: 2px 14px;
 }
 
 #battery {
-    background-color: #ffffff;
-    color: black;
+    background-color: @background;
+    color: @color1;
     border-radius: 16px;
     padding: 2px 14px;
 }
 
 #battery.normal.charging {
-    color: #26A65B;
-    background-color: #ffffff;
+    color: @color0;
+    background-color: @color5;
 }
 
 #battery.warning {
@@ -125,7 +125,7 @@ tooltip label {
 }
 
 #battery.normal {
-    color: black;
+    color: @color1;
 }
 
 @keyframes blink {
@@ -144,7 +144,7 @@ tooltip label {
 }
 
 #battery.critical:not(.charging) {
-    background: #f53c3c;
+    background: @color5;
     color: white;
     animation-name: blink;
     animation-duration: 0.5s;

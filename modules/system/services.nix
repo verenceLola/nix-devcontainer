@@ -19,6 +19,7 @@ with lib; {
             pkgs.busybox
           ];
         };
+        hyprpaper = { enable = true; };
       };
     };
   };

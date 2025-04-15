@@ -17,6 +17,7 @@ in {
     settings = {
       "$mod" = "SUPER";
       "exec-once" = [
+        "uwsm app -- swww-daemon -f xrgb"
         "uwsm app -- wayvnc -C /etc/${nixosConfig.environment.etc.wayvnc.target} -f 120 --gpu"
         "uwsm app -- swaync -c .config/swaync/config.json -s .config/swaync/style.css"
       ];
