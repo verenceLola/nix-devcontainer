@@ -1,4 +1,4 @@
-{ lib, pkgs, name, ... }:
+{ inputs, lib, pkgs, name, ... }:
 let
   wallpapersDirectory = "/home/${name}/wallpapers/";
 
@@ -82,12 +82,18 @@ let
     name = "copy-color-files";
     runtimeInputs = [ ];
     text = ''
-      # Copy waybar colors to waybar directory
+      # Copy waybar colors to waybar config directory
       cp "$HOME/.cache/wal/colors-waybar.css" "$HOME/.config/waybar/colors.css";
+
+      # Copy hyprland colors to hyprland config directory
+      cp "$HOME/.cache/wal/colors-hyprland.conf" "${
+        (dirOf "$HOME/.config/hypr/hyprland.conf") + "/colors-hyprland.conf"
+      }"
     '';
   };
 
   # Script to run pywal to re-generate colorschemes
+  # on wallpaper change
   pywalGenerateColorSchemes = pkgs.writeShellApplication {
     name = "pywal-generate-color-schemes";
     runtimeInputs = [ pkgs.pywal16 pkgs.hyprland runAfterPyWal ];
@@ -131,16 +137,43 @@ let
       pywal-generate-color-schemes
     '';
   };
+
+  # Start SWWW
+  startSWWW = pkgs.writeShellApplication {
+    name = "swww";
+    runtimeInputs = [ inputs.swww.packages.${pkgs.system}.swww pkgs.coreutils ];
+    text = ''
+      CURRENT_WALL=${preloadedWallpaper}
+
+      if [ -f ${currentWallpaperFile} ]; then
+        CURRENT_WALL=$(cat ${currentWallpaperFile})
+      fi
+
+      swww-daemon -f xrgb;
+      swww img "$CURRENT_WALL";
+    '';
+  };
 in {
   systemd.user.services = {
     randomizeWallpapers = {
-      Unit = { Description = "Randomly set a new wallpaper every 5min"; };
+      Unit = {
+        Description = "Randomly set a new wallpaper every 3 min";
+        After = "randomizeWallpapers.service";
+      };
       Install = { WantedBy = [ "graphical-session.target" ]; };
       Service = {
         Restart = "always";
-        RestartSec = "60";
+        RestartSec = "180";
         ExecStart = "${randomizeWallpapers}/bin/randomize-wallpapers";
       };
+    };
+    swww = {
+      Unit = {
+        Description = "Start SWWW";
+        After = "graphical-session.target";
+      };
+      Install = { WantedBy = [ "graphical-session.target" ]; };
+      Service = { ExecStart = "${startSWWW}/bin/swww"; };
     };
   };
   home = {

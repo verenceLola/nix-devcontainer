@@ -15,9 +15,9 @@ in {
     enable = true;
     systemd.enable = false;
     settings = {
+      "source" = [ "./colors-hyprland.conf" ];
       "$mod" = "SUPER";
       "exec-once" = [
-        "uwsm app -- swww-daemon -f xrgb"
         "uwsm app -- wayvnc -C /etc/${nixosConfig.environment.etc.wayvnc.target} -f 120 --gpu"
         "uwsm app -- swaync -c .config/swaync/config.json -s .config/swaync/style.css"
       ];
@@ -49,10 +49,11 @@ in {
             "$mod SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
           ]) 9));
       general = {
-        border_size = 2;
+        border_size = 1;
         gaps_in = 2;
         gaps_out = 5;
-        "col.active_border" = "0xffffff38";
+        "col.active_border" = "$color1";
+        "col.inactive_border" = "$background";
         layout = "dwindle";
         resize_on_border = true;
 

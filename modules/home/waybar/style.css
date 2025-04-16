@@ -29,16 +29,16 @@ tooltip label {
 }
 
 #workspaces button.active {
-    color: @color1;
-    background-color: @background;
+    color: @color0;
+    background-color: @color1;
     border-radius: 50%;
     padding: 0 4px;
 }
 
 #workspaces button:not(.active) {
-    background-color: @color1;
+    background-color: @background;
     border-radius: 50%;
-    color: @color0;
+    color: @color1;
     padding: 0 2px;
     margin: 2px;
 }
