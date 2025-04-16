@@ -18,6 +18,7 @@ in {
       "source" = [ "./colors-hyprland.conf" ];
       "$mod" = "SUPER";
       "exec-once" = [
+        "uwsm app -- hyprlock" # Start hyprlock immediately  for login screen
         "uwsm app -- wayvnc -C /etc/${nixosConfig.environment.etc.wayvnc.target} -f 120 --gpu"
         "uwsm app -- swaync -c .config/swaync/config.json -s .config/swaync/style.css"
       ];
