@@ -1,4 +1,4 @@
-{ inputs, lib, pkgs, name, ... }:
+{ lib, pkgs, name, ... }:
 let
   wallpapersDirectory = "/home/${name}/wallpapers/";
 
@@ -112,11 +112,7 @@ let
   randomizeWallpapers = pkgs.writeShellApplication {
     name = "randomize-wallpapers";
     runtimeEnv = { WALLPAPER_DIR = wallpapersDirectory; };
-    runtimeInputs = with pkgs; [
-      pkgs.hyprland
-
-      pywalGenerateColorSchemes
-    ];
+    runtimeInputs = with pkgs; [ pkgs.hyprland pywalGenerateColorSchemes ];
     text = ''
       CURRENT_WALL=${preloadedWallpaper}
 
@@ -124,8 +120,8 @@ let
         CURRENT_WALL=$(cat ${currentWallpaperFile})
       fi
 
-      # Get a random wallpaper that is not the current one
-      WALLPAPER=$(find "$WALLPAPER_DIR" -type l,f ! -executable ! -name "$(basename "$CURRENT_WALL")" ! -name "$(basename "$CURRENT_WALL")" | shuf -n 1)
+      # Get a random wallpaper that is not the current one, or the current file
+      WALLPAPER=$(find "$WALLPAPER_DIR" -type l,f ! -executable ! -name "$(basename "${currentWallpaperFile}")" ! -name "$(basename "$CURRENT_WALL")" | shuf -n 1)
 
       # Apply the selected wallpaper
       swww img -t random "$WALLPAPER"
@@ -141,16 +137,9 @@ let
   # Start SWWW
   startSWWW = pkgs.writeShellApplication {
     name = "swww";
-    runtimeInputs = [ inputs.swww.packages.${pkgs.system}.swww pkgs.coreutils ];
+    runtimeInputs = [ pkgs.swww ];
     text = ''
-      CURRENT_WALL=${preloadedWallpaper}
-
-      if [ -f ${currentWallpaperFile} ]; then
-        CURRENT_WALL=$(cat ${currentWallpaperFile})
-      fi
-
       swww-daemon -f xrgb;
-      swww img "$CURRENT_WALL";
     '';
   };
 in {
@@ -173,7 +162,11 @@ in {
         After = "graphical-session.target";
       };
       Install = { WantedBy = [ "graphical-session.target" ]; };
-      Service = { ExecStart = "${startSWWW}/bin/swww"; };
+      Service = {
+        ExecStart = "${startSWWW}/bin/swww";
+        ConditionFileExists = "/run/user/%U/wayland*.sock";
+        Restart = "on-failure";
+      };
     };
   };
   home = {

@@ -1,4 +1,10 @@
-{ config, ... }: {
+{ config, pkgs, ... }:
+let
+  profilePicture = pkgs.fetchurl {
+    url = "https://avatars.githubusercontent.com/u/38049235?v=4";
+    sha256 = "sha256-TF1GWT9fNpdsy/+H72mPAOmr8388fy9GlpPs3pLo66Y=";
+  };
+in {
 
   home = {
     username = "admin";
@@ -14,6 +20,10 @@
         text = ''
           ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFTCysy0tCsoiG5aUxqnB2neMlTP/6IQUcYTmh6FOS5u
         '';
+      };
+      profilePicture = {
+        target = "Pictures/profile/admin.png";
+        source = profilePicture;
       };
     };
   };

@@ -1,5 +1,5 @@
 { nixosConfig, ... }:
-let opacity-transparent = 0.7;
+let opacity-transparent = 1.0;
 in {
   home = {
     file = {

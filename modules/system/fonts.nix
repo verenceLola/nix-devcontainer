@@ -1,3 +1,5 @@
 { config, pkgs, ... }: {
-  config = { fonts = { packages = with pkgs; [ nerd-fonts.mplus ]; }; };
+  config = {
+    fonts = { packages = with pkgs; [ nerd-fonts.mplus jetbrains-mono ]; };
+  };
 }
