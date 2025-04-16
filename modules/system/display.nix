@@ -1,6 +1,6 @@
 { inputs, config, pkgs, ... }: {
   config = {
-    environment = { systemPackages = [ pkgs.swww ]; };
+    environment = { systemPackages = with pkgs; [ swww brightnessctl ]; };
     programs = {
       hyprland = {
         enable = true;
@@ -22,6 +22,7 @@
         enable = true;
         group = "video";
       };
+      hypridle = { enable = true; };
     };
   };
 }

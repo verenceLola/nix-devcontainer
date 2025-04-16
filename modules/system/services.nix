@@ -12,14 +12,13 @@ with lib; {
     };
     systemd = {
       user.services = {
-        "waybar" = {
+        waybar = {
           enable = true;
           path = [
             (pkgs.python3.withPackages (p: with p; [ requests ]))
             pkgs.busybox
           ];
         };
-        hyprpaper = { enable = true; };
       };
     };
   };

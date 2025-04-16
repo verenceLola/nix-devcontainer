@@ -164,7 +164,7 @@ in {
       Install = { WantedBy = [ "graphical-session.target" ]; };
       Service = {
         ExecStart = "${startSWWW}/bin/swww";
-        ConditionFileExists = "/run/user/%U/wayland*.sock";
+        ConditionEnvironment = "WAYLAND_DISPLAY";
         Restart = "on-failure";
       };
     };
