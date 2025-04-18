@@ -68,6 +68,13 @@ tooltip label {
     padding: 2px 14px;
 }
 
+#window {
+    border-radius: 16px;
+    color: @color1;
+    padding: 2px 14px;
+    background-color: @background;
+}
+
 #pulseaudio {
     background-color: @background;
     border-radius: 16px;
