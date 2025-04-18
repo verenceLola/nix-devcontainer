@@ -82,6 +82,6 @@ in {
         inactive_timeout = 300;
         enable_hyprcursor = true;
       };
-    };
+    } // import ./windowrules.nix;
   };
 }

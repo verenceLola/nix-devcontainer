@@ -12,6 +12,8 @@ in [
   "$mod, Q, killactive"
   "$mod CTRL, F, fullscreen"
 
+  "$mod, V, togglefloating"
+
   # Wofi
   "$mod, SPACE, exec, ${startWofi}"
 
