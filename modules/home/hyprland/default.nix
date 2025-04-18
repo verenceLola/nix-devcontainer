@@ -1,5 +1,6 @@
 { nixosConfig, ... }:
 let opacity-transparent = 1.0;
+
 in {
   home = {
     file = {
@@ -15,8 +16,8 @@ in {
     enable = true;
     systemd.enable = false;
     settings = {
-      "source" = [ "./colors-hyprland.conf" ];
       "$mod" = "SUPER";
+      "source" = [ "./colors-hyprland.conf" ];
       "exec-once" = [
         "uwsm app -- hyprlock" # Start hyprlock immediately  for login screen
         "uwsm app -- wayvnc -C /etc/${nixosConfig.environment.etc.wayvnc.target} -f 120 --gpu"
@@ -31,24 +32,7 @@ in {
         "ignorealpha 0.5, swaync-control-center"
         "ignorealpha 0.5, swaync-notification-window"
       ];
-      bind = [
-        "$mod, K, exec, kitty" # Terminal app
-        "$mod, E, exec, emacs"
-        ", Print, exec, grimblast copy area"
-        "$mod, Tab, cyclenext" # change focus to another window
-        "$mod, Tab, bringactivetotop" # bring it to the top
-
-        "$mod, W, killactive"
-        "$mod CTRL, F, fullscreen"
-      ] ++ (
-        # workspaces
-        # binds $mod + [shift +] {1..9} to [move to] workspace {1..9}
-        builtins.concatLists (builtins.genList (i:
-          let ws = i + 1;
-          in [
-            "$mod, code:1${toString i}, workspace, ${toString ws}"
-            "$mod SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
-          ]) 9));
+      bind = import ./binds.nix;
       general = {
         border_size = 1;
         gaps_in = 2;

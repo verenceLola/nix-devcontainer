@@ -4,5 +4,5 @@
   users = { admin = import ../home/admin; };
   extraSpecialArgs = { inherit inputs; };
   sharedModules =
-    [ ./hyprland.nix ./swaync ./waybar ./swww ./hyprlock ./hypridle ];
+    [ ./hyprland ./swaync ./waybar ./swww ./hyprlock ./hypridle ./wofi ];
 }

@@ -9,7 +9,7 @@ let
   };
 in {
   config = {
-    environment = { systemPackages = with pkgs; [ swww brightnessctl ]; };
+    environment = { systemPackages = with pkgs; [ swww brightnessctl wofi ]; };
     programs = {
       hyprland = {
         enable = true;

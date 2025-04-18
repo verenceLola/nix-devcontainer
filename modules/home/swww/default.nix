@@ -157,6 +157,9 @@ let
       cp "$HOME/.cache/wal/colors-hyprland.conf" "${
         (dirOf "$HOME/.config/hypr/hyprland.conf") + "/colors-hyprland.conf"
       }"
+
+      # Copy wofi colors file to wofi config folder
+      cp "$HOME/.cache/wal/colors" "$HOME/.config/wofi/colors"
     '';
   };
 
