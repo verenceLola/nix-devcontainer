@@ -8,6 +8,7 @@ in {
         target = ".config/uwsm/env-hyprland";
         text = ''
           export NIXOS_OZONE_WL=1
+          export HYPRCURSOR_THEME=rose-pine-hyprcursor
         '';
       };
     };

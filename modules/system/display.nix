@@ -9,7 +9,15 @@ let
   };
 in {
   config = {
-    environment = { systemPackages = with pkgs; [ swww brightnessctl wofi ]; };
+    environment = {
+      systemPackages = with pkgs; [
+        swww
+        brightnessctl
+        wofi
+        hyprcursor
+        inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
+      ];
+    };
     programs = {
       hyprland = {
         enable = true;
