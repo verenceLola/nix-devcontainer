@@ -16,12 +16,12 @@ let
         sha256 = "sha256-gVicNOo+k6bZyaiG0ArggxkvGScb7+LuspY2h0HEsd4=";
       }
       {
-        path = "anime/a_cartoon_of_a_man_holding_a_camera.jpg";
-        sha256 = "sha256-flEpsts9soSWZu4jNPNGzdCW6CU2ybkKAeyH2UmeO8A=";
+        path = "nord/a_blue_and_grey_logo.png";
+        sha256 = "sha256-jB7q1PAMKS0tfk0Ck6pGkbsfwO+7FHwI83dUHO86ftM=";
       }
       {
-        path = "anime/a_cartoon_of_a_woman_sitting_at_a_table_on_a_deck.jpg";
-        sha256 = "sha256-YWHHciVPyawrgVL3cvfxuh2Z8kGgx9f2f7IurN6c6WI=";
+        path = "nord/a_road_with_cars_and_buildings_in_the_background.png";
+        sha256 = "sha256-nEjw6B4s1ewWO+Vz6hMhFRs5gXGcrJ6bd+wbpvQsNmU=";
       }
       {
         path = "anime/a_cartoon_of_a_street_with_buildings.jpeg";
@@ -37,16 +37,84 @@ let
         sha256 = "sha256-oTIq1+yCU/pxEitTy4C/r4/bcVBPZjMYzBWoO9fRpOg=";
       }
       {
-        path = "anime/a_cartoon_of_a_woman_holding_a_sword.jpg";
-        sha256 = "sha256-DsEJW2dW7ofUvWiknsbsQHlBWL4dSSypGya497/F9F8=";
+        path = "nord/a_city_street_with_buildings_and_windows.jpg";
+        sha256 = "sha256-Ahw4384uU9ozeem9769gdjK/YNSNVkFhi9HjWsVRyBU=";
+      }
+      {
+        path = "lightbulb/a_light_bulb_from_the_ceiling.jpg";
+        sha256 = "sha256-l3MaoeyGAcW0OlAJldtSB6U4s/ZMxSw5jDC1DsNPGPk=";
+      }
+      {
+        path = "nord/a_cartoon_of_a_man's_face.png";
+        sha256 = "sha256-aEswEiwQra1db9wjazCqNB3yBWKqEM+JMbc8E1aL11k=";
+      }
+      {
+        path = "nord/a_woman_sitting_on_a_couch_looking_out_a_window.png";
+        sha256 = "sha256-axxFPAIlSs0T6D8Hv7RmaQp3+EJUXqVfoifIifG/66k=";
+      }
+      {
+        path = "nord/a_car_on_a_street.png";
+        sha256 = "sha256-XPo9Yen0oAUVGQhjkivCZtdRhCWrA3OsvYW+C6a92Yk=";
+      }
+      {
+        path = "nord/a_city_street_with_buildings_and_windows.jpg";
+        sha256 = "sha256-Ahw4384uU9ozeem9769gdjK/YNSNVkFhi9HjWsVRyBU=";
+      }
+      {
+        path = "anime/a_cartoon_of_a_girl_playing_a_guitar.jpg";
+        sha256 = "sha256-wV+sy+ehFXsL42k2Kwt2I6NhZKrRWsrTa5Qvz+w01hc=";
+      }
+      {
+        path =
+          "anime/a_girl_sitting_at_desks_in_a_classroom_with_flowers_flying_out_of_her_head.jpg";
+        sha256 = "sha256-ll4aOiFDc2pFA3IaIp9rZdaFIUCKIAwowA2v7kPQU4Y=";
+      }
+      {
+        path =
+          "anime/a_cartoon_of_a_woman_in_a_red_dress_with_a_large_weapon.jpg";
+        sha256 = "sha256-TQV5DD+Cfqcpcm0Hr3UajttS34ZUa6BuQmeUWv1SZB0=";
+      }
+      {
+        path = "anime/power_lines_and_trees_at_sunset.jpg";
+        sha256 = "sha256-kB3Zz0eMarp8yYBIz8n/FCdn3RaYURTWKoOI8IETvDk=";
+      }
+      {
+        path = "anime/a_bench_next_to_a_river.jpg";
+        sha256 = "sha256-CT2kaSmogPNCPvI0F9fYfYmAoj+xoYXSBkmH6JfzLoM=";
+      }
+      {
+        path =
+          "anime/a_cartoon_of_a_woman_sitting_on_a_building_with_a_cat_on_a_leash.jpg";
+        sha256 = "sha256-Efkg2eTeeUBS/atGjt2YF7eWbq0nzFFTzq4ArmbaZ5Q=";
       }
       {
         path = "anime/a_cartoon_of_a_woman_with_pink_hair.jpg";
         sha256 = "sha256-jt6ocBLX92U4UUNgoEFwaSWeYYyiDUzQdKsVHgURe8s=";
       }
       {
-        path = "anime/a_cartoon_of_a_woman_lying_on_a_snake.jpg";
-        sha256 = "sha256-2tpellst6dYTSVdYlGTCL8g+JcoOYP9l/ym4p55vmng=";
+        path = "anime/a_door_with_a_doorway_and_shoes_on_the_ground.jpg";
+        sha256 = "sha256-ajM6QsCPMHUkHRauhyGeihjs01Lp9mJHXHBPgbrC7qM=";
+      }
+      {
+        path = "anime/rain_drops_of_water_on_a_tile_surface.jpg";
+        sha256 = "sha256-+8d16vlTRC4Ld6XyXoHNFfZA3ZQ+/NozpGPEIekksC8=";
+      }
+      {
+        path = "anime/a_train_on_tracks_in_a_snowy_city.jpg";
+        sha256 = "sha256-n0KbFU9tCwQo28oYUN4gUS/5gH0DY3hGabx6epDQVGU=";
+      }
+      {
+        path = "anime/a_building_with_trees_in_the_background.jpg";
+        sha256 = "sha256-jEeoUJ31jw1w8XHRdZS9kS2s8bO15GpAXe244uVB4Bk=";
+      }
+      {
+        path =
+          "anime/a_cartoon_of_a_woman_sitting_on_a_table_with_an_umbrella.jpg";
+        sha256 = "sha256-pdnADpCjtWTsvGFJCdVxdrQqCf17rfpSBAExLfhwdq8=";
+      }
+      {
+        path = "anime/a_city_with_buildings_and_lights.jpg";
+        sha256 = "sha256-/pLQnHIkl45ShsAeJiPQRuy+uF8298oD+f5SctReNvY=";
       }
       {
         path = "anime/a_cartoon_of_a_woman_in_a_short_skirt_and_glasses.jpg";
