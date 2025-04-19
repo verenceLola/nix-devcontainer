@@ -88,10 +88,6 @@ let
         sha256 = "sha256-Efkg2eTeeUBS/atGjt2YF7eWbq0nzFFTzq4ArmbaZ5Q=";
       }
       {
-        path = "anime/a_cartoon_of_a_woman_with_pink_hair.jpg";
-        sha256 = "sha256-jt6ocBLX92U4UUNgoEFwaSWeYYyiDUzQdKsVHgURe8s=";
-      }
-      {
         path = "anime/a_door_with_a_doorway_and_shoes_on_the_ground.jpg";
         sha256 = "sha256-ajM6QsCPMHUkHRauhyGeihjs01Lp9mJHXHBPgbrC7qM=";
       }
@@ -160,6 +156,9 @@ let
 
       # Copy wofi colors file to wofi config folder
       cp "$HOME/.cache/wal/colors" "$HOME/.config/wofi/colors"
+
+      # Copy kitty colors to kitty config folder
+      cp "$HOME/.cache/wal/colors-kitty.conf" "$HOME/.config/kitty/colors-kitty.conf"
     '';
   };
 
