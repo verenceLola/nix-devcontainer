@@ -27,6 +27,7 @@
   "hide-on-clear": true,
   "hide-on-action": true,
   "script-fail-notify": true,
+  "relative-timestamps": true,
   "widgets": [
       "mpris",
       "title",
@@ -37,9 +38,9 @@
   ],
   "widget-config": {
       "title": {
-          "text": "Notification Center",
+          "text": "Notifications",
           "clear-all-button": true,
-          "button-text": "󰆴"
+          "button-text": "󱏧"
       },
       "label": {
           "max-lines":1,
@@ -59,39 +60,14 @@
       "buttons-grid": {
           "actions": [
               {
-                  "label": "🔇",
-                  "command": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+                  "label": "",
+                  "command": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
                   "type": "toggle"
               },
               {
                   "label": "󰍭",
-                  "command": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
+                  "command": "wpctl set-mute @DEFAULT_SOURCE@ toggle",
                   "type": "toggle"
-              },
-
-              {
-                  "label": "",
-                  "command": "kitty nmtui"
-              },
-              {
-                  "label": "",
-                  "command": "blueman-manager"
-              },
-
-
-              {
-                  "label": "󰈙",
-                  "command": "kitty bash -i -c 'Docs'"
-              },
-              {
-                  "label": "",
-                  "command": "kitty bash -i -c 'Settings'"
-                  
-              },
-              {
-                  "label": "",
-                  "command": "kitty bash -i -c 'tasks'"
-
               },
               {
                   "label": "🔒",

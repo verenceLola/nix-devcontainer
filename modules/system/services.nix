@@ -8,7 +8,6 @@ with lib; {
         enable = true;
         settings = { PermitRootLogin = "yes"; };
       };
-      pipewire = { enable = true; }; # Audio and Video capture
     };
     systemd = {
       user.services = {
