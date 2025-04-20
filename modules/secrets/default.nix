@@ -1,4 +1,11 @@
-{ config, inputs, ... }: {
+{ config, pkgs, inputs, ... }:
+let
+  myRootCa = pkgs.fetchurl {
+    url = "https://ca.verencelola.home/roots.pem";
+    curlOpts = "-k";
+    sha256 = "0d9zi0gh63hk0p3r8apcbjh9l91bi936ijsnsynkby1nqj6fz7km";
+  };
+in {
   imports = [ inputs.sops-nix.nixosModules.sops ];
 
   sops = {
@@ -36,6 +43,21 @@
           psk_verenceLola=${config.sops.placeholder."wireless/psk_verenceLola"}
         '';
       };
+      "git-credentials" = {
+        content = ''
+          [credential]
+          username = ${config.sops.placeholder."me/git_username"}
+
+          [http "https://*.verencelola.home"]
+          sslVerify = true
+          sslCaPath = ${myRootCa}
+
+          [user]
+          name = ${config.sops.placeholder."me/name"}
+          email = ${config.sops.placeholder."me/email"}
+        '';
+        owner = "admin";
+      };
     };
 
     secrets = {
@@ -51,9 +73,18 @@
       "dns_rfc2136/algorithm" = { };
       "dns_rfc2136/secret" = { };
 
-      # SSh Secrets
+      # SSH Secrets
       "ssh/ed25519/pub" = { };
       "ssh/ed25519/key" = { };
+
+      # GPG
+      "gpg/private_key" = { owner = "admin"; };
+      "gpg/passphrase" = { owner = "admin"; };
+
+      # ME
+      "me/name" = { };
+      "me/email" = { };
+      "me/git_username" = { };
 
       # VNC
       "vnc/password" = { };

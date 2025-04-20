@@ -55,4 +55,22 @@ in {
       }];
     };
   };
+  programs = { gnupg = { agent = { enable = true; }; }; };
+  system = {
+    userActivationScripts = {
+      importGPGKeys = let gpg = "${pkgs.gnupg}/bin/gpg";
+      in {
+        text = ''
+          ${gpg} --batch --passphrase-file ${
+            config.sops.secrets."gpg/passphrase".path
+          } --import ${config.sops.secrets."gpg/private_key".path}
+
+          ${pkgs.curl}/bin/curl https://keybase.io/verencelola/pgp_keys.asc | ${gpg} --import
+
+          # Trust above key
+          echo "trust\n4\nquit" | ${gpg} --command-fd 0 --no-tty --edit-key B93916FD19F86056636CA9479BD70668EC04D878
+        '';
+      };
+    };
+  };
 }

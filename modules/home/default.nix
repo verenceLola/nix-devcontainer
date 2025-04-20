@@ -12,5 +12,6 @@
     ./hyprlock
     ./hypridle
     ./wofi
+    ./git
   ];
 }

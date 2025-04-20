@@ -11,6 +11,8 @@
         swaynotificationcenter # Notifications GUI
         pywal16 # color pallets
         pavucontrol # Audio controls
+
+        delta # Pager for git
       ];
       etc = {
         ssh-key = {
