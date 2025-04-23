@@ -13,5 +13,6 @@
     ./hypridle
     ./wofi
     ./git
+    ./emacs
   ];
 }

@@ -4,14 +4,15 @@
       systemPackages = with pkgs; [
         firefox # Firefox
         direnv # Shell environment
-        emacs-pgtk
+
         kitty # Default terminal
         wayvnc # VNC server
         grimblast # Screenshots
         swaynotificationcenter # Notifications GUI
         pywal16 # color pallets
         pavucontrol # Audio controls
-
+        cmake
+        libtool
         delta # Pager for git
       ];
       etc = {

@@ -1,4 +1,4 @@
-{ config, ... }: {
+{ config, inputs, ... }: {
   nix = {
     settings = {
       experimental-features = [ "nix-command" "flakes" ];
@@ -17,4 +17,5 @@
   };
 
   system = { stateVersion = "24.11"; };
+  nixpkgs.overlays = [ (import inputs.emacs-overlay) ];
 }
