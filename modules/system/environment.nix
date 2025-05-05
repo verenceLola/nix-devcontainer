@@ -14,6 +14,8 @@
         cmake
         libtool
         delta # Pager for git
+
+        (python312.withPackages (pyPkgs: with pyPkgs; [ python-lsp-server ]))
       ];
       etc = {
         ssh-key = {

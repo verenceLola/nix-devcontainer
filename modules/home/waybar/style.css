@@ -18,6 +18,12 @@ tooltip {
   background-color: @color5;
 }
 
+#tray {
+    border-radius: 8px;
+    background-color: @color5;
+    color: @color1;
+}
+
 tooltip label {
   color: @background;
 }

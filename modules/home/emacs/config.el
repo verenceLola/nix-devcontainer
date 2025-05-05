@@ -8,9 +8,29 @@
 (menu-bar-mode -1) ; disable the menu bar
 
 (setq visible-bell t) ; enable the visual bell
-(setq electric-pair-mode t) ;; Enable Parens Pairing
-(setq delete-selection-mode t) ;; Enable replacing selected text instead of deleting first.
-(setq global-auto-revert-mode t)
+(electric-pair-mode t) ;; Enable Parens Pairing
+(delete-selection-mode 1) ;; Enable replacing selected text instead of deleting first.
+(global-auto-revert-mode t)
+(electric-quote-mode t)
+
+;; Backups
+;; Define the directory where backup files should be stored
+(setq backup-directory-alist
+      `(("." . ,(expand-file-name "backups/" user-emacs-directory))))
+
+;; Ensure the backup directory exists
+(make-directory (expand-file-name "backups/" user-emacs-directory) t)
+
+;; Keep backup files enabled (this is the default, but explicit)
+(setq make-backup-files t)
+
+;; Ensure standard auto-save feature is active
+(setq auto-save-default t)
+;; Tell auto-save-mode to save the visited file directly, not #autosave# files
+(setq auto-save-visited-file-name t)
+
+(setq auto-save-timeout 20) ;; Auto-save after 20 seconds of idle time
+(setq auto-save-interval 300) ;; Auto-save after 300 characters typed
 
 (set-face-attribute 'default nil :font "JetBrainsMono" :height 100)
 
@@ -128,7 +148,6 @@
 ;; Ivy Prescient
 (use-package ivy-prescient
   :after counsel
-  :custom
   :diminish
   (ivy-prescient-enable-filtering nil)
   :config
@@ -152,12 +171,12 @@
   :config (general-auto-unbind-keys t))
 (general-define-key
  :prefix "C-x"
- "<return>" 'goto-last-change)
+ "<return>" #'goto-last-change)
 
 ;; Sudo Edit
 (use-package sudo-edit
   :defer 0)
-
+ 
 ;; Buffer move
 ;; C-x <up> Move up
 ;; C-x <down> Move down
@@ -279,6 +298,9 @@
 (use-package terraform-mode
   :hook (terraform-mode . lsp-deferred))
 
+;; Tailwind
+(use-package lsp-tailwindcss :after lsp-mode)
+
 ;; Languages: CSS, HTML, EsLint, JSON
 (use-package json-mode
   :hook (json-mode . lsp-deferred))
@@ -297,6 +319,24 @@
 (use-package fsharp-mode
   :hook (fsharp-mode . lsp-deferred))
 
+;; Language
+(add-to-list 'auto-mode-alist '("\\.csproj?\\’" . nxml-mode))
+(add-to-list 'auto-mode-alist '("\\.fsproj?\\’" . nxml-mode))
+
+;; Web Mode
+(use-package web-mode)
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.cshtml?\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.svelte?\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.razor\\'" . web-mode))
+(setq web-mode-engines-alist
+      '(("razor"    . "\\.cshtml\\'")
+	("blade"  . "\\.blade\\.")
+	("svelte" . "\\.svelte\\.")
+	("razor" . "\\.razor\\'")
+	))
+
 ;; LSP Mode Setup
 (defun verence/lsp-mode-setup ()
   (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
@@ -310,6 +350,8 @@
   :hook
   (lsp-mode . verence/lsp-mode-setup)
   :hook (sh-mode . lsp)
+  :hook (web-mode . lsp)
+  :hook (nxml-mode . lsp)
   :hook (yaml-mode . lsp) ;; YAML
   :hook (dockerfile-mode . lsp) ;; Dockerfile
   :hook (terraform-mode . lsp) ;; Terraform
@@ -319,8 +361,16 @@
   :hook (csharp-mode . lsp) ;; C#
   :hook (nix-mode . lsp) ;; Nix
   :hook (fsharp-mode . lsp) ;; F#
+  :hook (python-mode . lsp) ;; Python
+  :hook (typescript-mode . lsp) ;; Typescript
+  :hook (js-mode . lsp) ;; Javascript
   :config
   (lsp-enable-which-key-integration t))
+
+;; Maybe enable when auto-download feature isn’t bugged
+;; (use-package lsp-sonarlint
+;;   :custom
+;;   (lsp-sonarlint-auto-download t))
 
 (use-package lsp-ui
   :hook (lsp-mode . lsp-ui-mode))

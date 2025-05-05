@@ -1,5 +1,4 @@
-{ config, lib, suggestedHostName, ... }:
-with lib;
+{ suggestedHostName, ... }:
 let
   myHomeDomain = "verencelola.home";
   myGateway = "pfsense.${myHomeDomain}";
@@ -13,6 +12,16 @@ in {
       timeServers = [ myGateway ];
       nameservers = [ "10.0.0.1" ];
       firewall = { allowedTCPPorts = [ 5900 ]; };
+      enableIPv6 = false;
+      networkmanager = {
+        enable = true;
+        dns = "systemd-resolved";
+        dhcp = "dhcpcd";
+        wifi = {
+          backend = "wpa_supplicant";
+          powersave = true;
+        };
+      };
     };
   };
 }

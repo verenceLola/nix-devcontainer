@@ -45,6 +45,10 @@
       };
     };
     emacs-overlay = { url = "github:nix-community/emacs-overlay"; };
+    hydepanel = {
+      url = "github:rubiin/HyDePanel";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, systems, ... }@args:

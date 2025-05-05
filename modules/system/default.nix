@@ -8,5 +8,6 @@
     ./environment.nix
     ./fonts.nix
     ./audio.nix
+    ./power.nix
   ];
 }

@@ -27,5 +27,9 @@ in {
       };
     };
   };
-  programs.home-manager.enable = true;
+  programs = {
+    home-manager.enable = true;
+    # TODO: Move this to a more re-usable location
+    chromium = { enable = true; };
+  };
 }

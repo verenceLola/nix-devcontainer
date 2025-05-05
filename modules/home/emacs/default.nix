@@ -15,10 +15,14 @@
       terraform-lsp # Terraform Language Server
       vscode-langservers-extracted # CSS, HTML, Eslint, JSON
       marksman # Markdown
-      csharp-ls # C# Language Server
+      omnisharp-roslyn # .NET
       fsautocomplete # F# Language Server
-
+      lemminx # XML
       mpv # Media player
+
+      tailwindcss-language-server # Tailwindcss Language Server
+      typescript-language-server # JS/TS Language Server
+      typescript
     ];
   };
   programs.emacs = {

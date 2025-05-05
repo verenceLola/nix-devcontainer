@@ -1,5 +1,5 @@
 { ... }: {
-  imports = [ ./disk.nix ./boot.nix ../common/graphics.nix ];
+  imports = [ ./disk.nix ./boot.nix ../common/graphics.nix ./bluetooth.nix ];
 
   # Set your time zone.
   time.timeZone = "Africa/Nairobi";

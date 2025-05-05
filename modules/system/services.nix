@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ pkgs, lib, ... }:
 with lib; {
   config = {
     services = {
@@ -8,6 +8,7 @@ with lib; {
         enable = true;
         settings = { PermitRootLogin = "yes"; };
       };
+      upower = { enable = true; };
     };
     systemd = {
       user.services = {

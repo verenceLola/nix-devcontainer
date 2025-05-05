@@ -334,6 +334,22 @@
         "type": "github"
       }
     },
+    "hydepanel": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1745673252,
+        "narHash": "sha256-hlxeX3CViwaoYZiZtzEZNBZMGC6DsPgFa1cwW83xzYk=",
+        "owner": "rubiin",
+        "repo": "HyDePanel",
+        "rev": "8f9d16e58d602e5071731a4e7404f44bd443e4b8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "rubiin",
+        "repo": "HyDePanel",
+        "type": "github"
+      }
+    },
     "hyprcursor": {
       "inputs": {
         "hyprlang": [
@@ -897,6 +913,7 @@
         "disko": "disko",
         "emacs-overlay": "emacs-overlay",
         "home-manager": "home-manager_2",
+        "hydepanel": "hydepanel",
         "hyprland": "hyprland",
         "hyprlock": "hyprlock",
         "nixos-generators": "nixos-generators",
