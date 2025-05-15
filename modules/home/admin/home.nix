@@ -26,6 +26,7 @@ in {
         source = profilePicture;
       };
     };
+    packages = with pkgs; [ figma-linux ];
   };
   programs = {
     home-manager.enable = true;
